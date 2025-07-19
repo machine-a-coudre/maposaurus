@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import { storeToRefs } from 'pinia'
+import { useAppStore } from '@/stores/app'
+
+const appStore = useAppStore()
+const { mapMode } = storeToRefs(appStore)
 const { t } = useI18n()
 </script>
 
@@ -28,5 +33,11 @@ const { t } = useI18n()
       :disabled="true"
     />
     <BaseMapStylePicker class="mt-6" />
+    <BaseButton
+      icon="i-lucide-box"
+      :title="t('map.menu.3d.tooltip')"
+      :active="mapMode === 'globe'"
+      @click="appStore.toggleMapMode"
+    />
   </div>
 </template>

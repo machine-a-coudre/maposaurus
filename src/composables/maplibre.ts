@@ -1,4 +1,4 @@
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import maplibregl from 'maplibre-gl'
 
@@ -13,14 +13,14 @@ const PREDEFINED_STYLES = {
 
 export function useMapLibre(containerId = 'map', type = 'map') {
   let map: maplibregl.Map | undefined = undefined
-  const mode = ref(type)
   const appStore = useAppStore()
-  const { baseMapKey } = storeToRefs(appStore)
+  const { baseMapKey, mapMode } = storeToRefs(appStore)
 
-  watch(mode, (m) => {
-    map?.setProjection({
-      type: m,
-    })
+  watch(mapMode, (m) => {
+    m &&
+      map?.setProjection({
+        type: m,
+      })
   })
 
   watch(baseMapKey, (k) => {
@@ -31,10 +31,6 @@ export function useMapLibre(containerId = 'map', type = 'map') {
     map = new maplibregl.Map({
       container: containerId,
       style: positronStyle,
-      // 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
-      // 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
-      // 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
-      //'https://demotiles.maplibre.org/style.json',
       center: [0, 0],
       zoom: 1.5,
     })

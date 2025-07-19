@@ -17,7 +17,7 @@ const props = withDefaults(
 
 <template>
   <div class="relative">
-    <MapMenu class="bg-auto p-3 absolute right-0 z-[99999]" :popover="true" />
+    <MapMenu class="bg-auto p-3 absolute right-0 z-[99999]" />
     <MapLibre :mode="mode" :container-id="'map'">
       <div id="map" class="w-full h-[calc(100vh-48px)]" />
     </MapLibre>

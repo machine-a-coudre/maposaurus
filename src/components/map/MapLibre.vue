@@ -5,7 +5,6 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 
 import style from './styles/positron-gl-style.json'
 
-
 const props = defineProps<{
   containerId?: string
   mode?: string // 'map' | 'globe'
@@ -30,7 +29,7 @@ onMounted(() => {
     style,
     // 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
     // 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
-    // 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json', 
+    // 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
     //'https://demotiles.maplibre.org/style.json',
     center: [0, 0],
     zoom: 1.5,
@@ -41,6 +40,15 @@ onMounted(() => {
       type: props.mode,
     })
   })
+
+  map.addControl(new maplibregl.NavigationControl(), 'top-left')
+
+  map.addControl(
+    new maplibregl.ScaleControl({
+      maxWidth: 80,
+      unit: 'metric',
+    }),
+  )
 })
 </script>
 

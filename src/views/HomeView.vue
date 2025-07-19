@@ -3,7 +3,7 @@ import MapViewer from '../components/map/MapViewer.vue'
 </script>
 
 <template>
-  <main>
+  <main class="h-full">
     <MapViewer />
   </main>
 </template>

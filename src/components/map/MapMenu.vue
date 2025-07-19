@@ -8,8 +8,8 @@ const { t } = useI18n()
     <ThemePicker />
     <LayerPicker />
     <LegendInfo />
-    <BaseMapStyle />
     <BaseButton
+      class="mt-6"
       icon="i-lucide-pencil-ruler"
       :title="t('map.menu.tools.tooltip')"
     />
@@ -27,5 +27,6 @@ const { t } = useI18n()
       :title="t('map.menu.save.tooltip')"
       :disabled="true"
     />
+    <BaseMapStylePicker class="mt-6" />
   </div>
 </template>

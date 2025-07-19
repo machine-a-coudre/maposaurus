@@ -1,5 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import type { TabsItem } from '@nuxt/ui'
+
+const items = ref<TabsItem[]>([
+  {
+    label: 'All',
+  },
+  {
+    label: 'Geology',
+  },
+  {
+    label: 'FR - Summer',
+  },
+])
 
 const open = ref(false)
 </script>
@@ -24,7 +37,7 @@ const open = ref(false)
     />
 
     <template #content>
-      <div class="flex items-center gap-4 mb-4 justify-between min-w-[500px]">
+      <div class="flex items-center gap-4 mb-4 justify-between min-w-[700px]">
         <h2 class="text-highlighted font-semibold">Browse themes</h2>
 
         <UButton
@@ -41,6 +54,14 @@ const open = ref(false)
         size="md"
         variant="outline"
         :placeholder="$t('map.menu.themes.search.placeholder')"
+      />
+
+      <UTabs
+        color="primary"
+        variant="link"
+        :content="false"
+        :items="items"
+        class="w-full my-8"
       />
 
       <div class="mt-5">Theme sélectionné : Baignade en France 2024</div>

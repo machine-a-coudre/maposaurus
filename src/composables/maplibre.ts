@@ -53,7 +53,7 @@ export function useMapLibre(containerId = 'map', type = 'map') {
         .serialize()
     }
 
-    map.value?.setStyle(PREDEFINED_STYLES[k])
+    mapv.setStyle(PREDEFINED_STYLES[k])
 
     mapv.once('styledata', () => {
       // Restaurez les sources
@@ -72,6 +72,8 @@ export function useMapLibre(containerId = 'map', type = 'map') {
           }
         }
       })
+
+      mapMode.value = 'map'
     })
   })
 

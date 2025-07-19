@@ -18,6 +18,7 @@ const { t } = useI18n()
       icon="i-lucide-pencil-ruler"
       :title="t('map.menu.tools.tooltip')"
     />
+    <LocalizationInfo />
     <BaseButton
       icon="i-lucide-message-circle-question-mark"
       :title="t('map.menu.question.tooltip')"

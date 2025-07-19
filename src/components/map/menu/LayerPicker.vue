@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 
 const open = ref(false)
+const showLayer = ref(true)
 </script>
 
 <template>
@@ -50,11 +51,33 @@ const open = ref(false)
         <h4>Liste des couches :</h4>
 
         <div class="flex items-center gap-2 px-0 py-1">
-          <UButton color="neutral" variant="ghost" icon="i-lucide-eye" />
-          <span class="flex-grow" title="Points de baignade en France 2025">
-            Points de baignade en France 2025
+          <UButton
+            class="hover:cursor-pointer"
+            color="neutral"
+            variant="ghost"
+            @click="showLayer = !showLayer"
+            :icon="showLayer ? 'i-lucide-eye' : 'i-lucide-eye-closed'"
+            :title="$t('map.menu.layers.item.toggle.tooltip')"
+          />
+          <span
+            class="flex-grow"
+            title="Points de baignade - Saison balnéaire 2024"
+          >
+            Points de baignade - Saison balnéaire 2024
           </span>
-          <UButton color="neutral" variant="ghost" icon="i-lucide-square-x" />
+          <UButton
+            color="neutral"
+            variant="ghost"
+            icon="i-lucide-paintbrush"
+            :title="$t('map.menu.layers.item.styling.tooltip')"
+            :disabled="true"
+          />
+          <UButton
+            color="neutral"
+            variant="ghost"
+            icon="i-lucide-square-x"
+            :title="$t('map.menu.layers.item.remove.tooltip')"
+          />
         </div>
 
         <UButton

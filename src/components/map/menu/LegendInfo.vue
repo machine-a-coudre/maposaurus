@@ -17,14 +17,14 @@ const open = ref(false)
       size="lg"
       color="neutral"
       variant="soft"
-      title="Add a layer to the map"
+      :title="$t('map.menu.legend.tooltip')"
       :active="open"
       activeColor="primary"
       activeVariant="solid"
     />
 
     <template #content>
-      <div class="flex items-center gap-4 mb-4 justify-between">
+      <div class="flex items-center gap-4 mb-4 justify-between min-w-[400px]">
         <h2 class="text-highlighted font-semibold">Legends</h2>
 
         <UButton
@@ -35,43 +35,8 @@ const open = ref(false)
         />
       </div>
 
-      <UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton icon="i-lucide-map" size="lg" color="neutral" variant="soft" />
-      <UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton icon="i-lucide-map" size="lg" color="neutral" variant="soft" />
+      <h4>Title first layer</h4>
+      Legend here (TODO)
     </template>
   </UPopover>
 </template>

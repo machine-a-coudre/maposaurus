@@ -1,45 +1,69 @@
 export function useLayerconnector() {
   async function getBaignadeData() {
-    const response = await fetch(
-      'https://www.data.gouv.fr/api/1/datasets/r/a6f8d961-d4c6-4fc0-9af1-d530861928ef',
-    )
+    const [sitesResponse, alertsResponse] = await Promise.all([
+      fetch(
+        'https://www.data.gouv.fr/api/1/datasets/r/a6f8d961-d4c6-4fc0-9af1-d530861928ef',
+      ),
+      fetch(
+        'https://www.data.gouv.fr/api/1/datasets/r/c9d350c8-96b0-478d-a894-941365bc0253',
+      ),
+    ])
 
-    const csvText = await response.text()
+    const sitesCsv = await sitesResponse.text()
+    const alertsCsv = await alertsResponse.text()
 
+    // Convertir en GeoJSON avec statut combiné
     const features = []
-    const lines = csvText.split('\n').filter((line) => line.trim() !== '')
-    const headers = lines[0].split(';').map((h) => h.trim())
+    const sites = parseCsv(sitesCsv)
+    const alerts = parseCsv(alertsCsv)
 
-    for (let i = 1; i < lines.length; i++) {
-      const values = lines[i].split(';')
-      const properties = {}
-
-      headers.forEach((header, index) => {
-        properties[header] = values[index]?.trim()
-      })
-
-      // Conversion des coordonnées (attention au format français avec virgule)
-      const longitude = parseFloat(
-        properties['Longitude (ETRS 89)'].replace(',', '.'),
+    // Combiner les données
+    sites.forEach((site) => {
+      const siteAlerts = alerts.filter(
+        (a) =>
+          a["Code unique d'identification du site de baignade"] ===
+          site["Code unique d'identification du site de baignade"],
       )
-      const latitude = parseFloat(
-        properties['Latitude (ETRS 89)'].replace(',', '.'),
+
+      const isBanned = siteAlerts.some(
+        (a) => a["Type d'�v�nement"] !== 'Saison baln�aire',
       )
+      const currentStatus = isBanned ? 'banned' : 'open'
 
       features.push({
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [longitude, latitude],
+          coordinates: [
+            parseFloat(site['Longitude (ETRS 89)'].replace(',', '.')),
+            parseFloat(site['Latitude (ETRS 89)'].replace(',', '.')),
+          ],
         },
-        properties,
+        properties: {
+          ...site,
+          status: currentStatus,
+          alerts: siteAlerts,
+        },
       })
-    }
+    })
 
     return {
       type: 'FeatureCollection',
       features,
     }
+  }
+
+  function parseCsv(csvText) {
+    const lines = csvText.split('\n').filter((line) => line.trim() !== '')
+    const headers = lines[0].split(';').map((h) => h.trim())
+
+    return lines.slice(1).map((line) => {
+      const values = line.split(';')
+      return headers.reduce((obj, header, i) => {
+        obj[header] = values[i]?.trim()
+        return obj
+      }, {})
+    })
   }
 
   return {

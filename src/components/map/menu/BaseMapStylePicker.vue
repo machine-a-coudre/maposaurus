@@ -33,6 +33,7 @@ const items = ['voyager', 'positron', 'dark']
         <h2 class="flex-grow text-highlighted font-semibold">Base map style</h2>
 
         <UButton
+          class="cursor-pointer"
           color="neutral"
           variant="ghost"
           icon="i-lucide-x"

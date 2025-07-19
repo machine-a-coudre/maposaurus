@@ -11,7 +11,7 @@ const open = ref(false)
     :ui="{ content: 'p-4' }"
     :content="{ side: 'left', align: 'start' }"
   >
-    <UChip inset :text="5" size="3xl">
+    <UChip inset :text="1" size="3xl">
       <UButton
         class="hover:cursor-pointer"
         icon="i-lucide-layers"
@@ -30,6 +30,7 @@ const open = ref(false)
         <h2 class="text-highlighted font-semibold">Browse layers</h2>
 
         <UButton
+          class="cursor-pointer"
           color="neutral"
           variant="ghost"
           icon="i-lucide-x"
@@ -45,23 +46,19 @@ const open = ref(false)
         :placeholder="$t('map.menu.layers.search.placeholder')"
       />
 
-      <div class="mt-5">
-        <h4>Liste des couches:</h4>
+      <div class="mt-8">
+        <h4>Liste des couches :</h4>
 
         <div class="flex items-center gap-2 px-0 py-1">
           <UButton color="neutral" variant="ghost" icon="i-lucide-eye" />
-          <span class="flex-grow"> Points de baignade en France 2024 </span>
-          <UButton color="neutral" variant="ghost" icon="i-lucide-square-x" />
-        </div>
-
-        <div class="flex items-center gap-2 px-0 py-1">
-          <UButton color="neutral" variant="ghost" icon="i-lucide-eye" />
-          <span class="flex-grow"> Points de baignade en France 2025 </span>
+          <span class="flex-grow" title="Points de baignade en France 2025">
+            Points de baignade en France 2025
+          </span>
           <UButton color="neutral" variant="ghost" icon="i-lucide-square-x" />
         </div>
 
         <UButton
-          class="hover:cursor-pointer w-full my-2"
+          class="hover:cursor-pointer w-full mt-4 mb-2"
           icon="i-lucide-folder-plus"
           size="lg"
           color="neutral"

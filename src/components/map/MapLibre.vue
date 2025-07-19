@@ -32,9 +32,15 @@ watch(mapReady, async (r) => {
       source: 'bathing-sites',
       paint: {
         'circle-radius': 4,
-        'circle-color': '#4488ad',
-        // 'circle-stroke-width': 2,
-        // 'circle-stroke-color': '#ffffff'
+        'circle-color': [
+          'match',
+          ['get', 'status'],
+          'banned',
+          '#ff0000', // Rouge pour interdiction
+          'open',
+          '#007cbf', // Bleu pour ouvert
+          '#cccccc', // Gris par défaut
+        ],
       },
     })
 
@@ -51,7 +57,15 @@ watch(mapReady, async (r) => {
         'text-allow-overlap': false,
       },
       paint: {
-        'text-color': '#4488ad',
+        'text-color': [
+          'match',
+          ['get', 'status'],
+          'banned',
+          '#ff0000', // Rouge pour interdiction
+          'open',
+          '#007cbf', // Bleu pour ouvert
+          '#cccccc', // Gris par défaut
+        ],
         // 'text-halo-color': 'rgba(255,255,255,0.8)',
         // 'text-halo-width': 1,
       },

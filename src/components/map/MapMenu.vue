@@ -21,6 +21,7 @@ const { t } = useI18n()
     <BaseButton
       icon="i-lucide-message-circle-question-mark"
       :title="t('map.menu.question.tooltip')"
+      :disabled="true"
     />
     <BaseButton
       icon="i-lucide-printer"

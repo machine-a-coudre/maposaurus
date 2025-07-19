@@ -4,7 +4,7 @@ import MapMenu from './MapMenu.vue'
 
 export type ChoupiMapMode = 'map' | 'globe'
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     extent?: any // TODO: typing
     mode?: ChoupiMapMode

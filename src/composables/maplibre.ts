@@ -1,4 +1,4 @@
-import { onMounted, watch } from 'vue'
+import { onMounted, shallowRef, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import maplibregl from 'maplibre-gl'
 
@@ -12,34 +12,85 @@ const PREDEFINED_STYLES = {
 } as const
 
 export function useMapLibre(containerId = 'map', type = 'map') {
-  let map: maplibregl.Map | undefined = undefined
+  const map = shallowRef<maplibregl.Map | undefined>(undefined)
   const appStore = useAppStore()
-  const { baseMapKey, mapMode } = storeToRefs(appStore)
+  const { baseMapKey, mapMode, mapReady } = storeToRefs(appStore)
 
   watch(mapMode, (m) => {
     m &&
-      map?.setProjection({
+      map.value?.setProjection({
         type: m,
       })
   })
 
   watch(baseMapKey, (k) => {
-    k && map?.setStyle(PREDEFINED_STYLES[k])
+    if (!k) {
+      return
+    }
+
+    const mapv = map.value!
+    const sourcesToPreserve = {}
+    const layersToPreserve = []
+
+    mapv.getStyle().layers.forEach((layer) => {
+      //   if (layer.id.startsWith('custom-')) {
+      //     layersToPreserve.push(layer)
+      //   }
+
+      layersToPreserve.push(layer)
+    })
+
+    // if (mapv.getLayer('bathing-sites-layer')) {
+    //   layersToPreserve.push(
+    //     mapv.getStyle().layers.find((l) => l.id === 'bathing-sites-layer'),
+    //   )
+    // }
+
+    // 2. Sauvegardez les sources
+    if (mapv.getSource('bathing-sites')) {
+      sourcesToPreserve['bathing-sites'] = mapv
+        .getSource('bathing-sites')
+        .serialize()
+    }
+
+    map.value?.setStyle(PREDEFINED_STYLES[k])
+
+    mapv.once('styledata', () => {
+      // Restaurez les sources
+      Object.entries(sourcesToPreserve).forEach(([id, source]) => {
+        if (!mapv.getSource(id)) {
+          mapv.addSource(id, source)
+        }
+      })
+
+      // Restaurez les couches
+      layersToPreserve.forEach((layer) => {
+        if (!mapv.getLayer(layer.id)) {
+          // Vérifiez que la source existe avant d'ajouter la couche
+          if (mapv.getSource(layer.source)) {
+            mapv.addLayer(layer)
+          }
+        }
+      })
+    })
   })
 
   onMounted(() => {
-    map = new maplibregl.Map({
+    map.value = new maplibregl.Map({
       container: containerId,
       style: positronStyle,
       center: [0, 0],
       zoom: 1.5,
     })
 
-    map.on('style.load', () => map!.setProjection({ type }))
+    map.value.on('style.load', () => {
+      mapReady.value = true
+      map.value!.setProjection({ type })
+    })
 
-    map.addControl(new maplibregl.NavigationControl(), 'top-left')
+    map.value.addControl(new maplibregl.NavigationControl(), 'top-left')
 
-    map.addControl(
+    map.value.addControl(
       new maplibregl.ScaleControl({
         maxWidth: 80,
         unit: 'metric',

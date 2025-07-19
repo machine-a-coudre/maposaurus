@@ -1,15 +1,63 @@
 <script setup lang="ts">
-import { onMounted, watch } from 'vue'
+import { watch } from 'vue'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 import { useMapLibre } from '@/composables/maplibre'
+import { useAppStore } from '@/stores/app'
+import { storeToRefs } from 'pinia'
+import { useLayerconnector } from '@/composables/layerconnector'
 
 const props = defineProps<{
   containerId?: string
   mode?: string // 'map' | 'globe'
 }>()
 
-useMapLibre(props.containerId, props.mode)
+const appStore = useAppStore()
+const { mapReady } = storeToRefs(appStore)
+const layerConnector = useLayerconnector()
+const mapLibre = useMapLibre(props.containerId, props.mode)
+
+watch(mapReady, async (r) => {
+  if (r) {
+    const bathingSites = await layerConnector.getBaignadeData()
+
+    mapLibre.map.value?.addSource('bathing-sites', {
+      type: 'geojson',
+      data: bathingSites,
+    })
+
+    mapLibre.map.value?.addLayer({
+      id: 'bathing-sites-layer',
+      type: 'circle',
+      source: 'bathing-sites',
+      paint: {
+        'circle-radius': 4,
+        'circle-color': '#4488ad',
+        // 'circle-stroke-width': 2,
+        // 'circle-stroke-color': '#ffffff'
+      },
+    })
+
+    mapLibre.map.value?.addLayer({
+      id: 'bathing-sites-labels',
+      type: 'symbol',
+      source: 'bathing-sites',
+      layout: {
+        'text-field': ['get', 'Nom du site de baignade'],
+        'text-size': 11,
+        'text-offset': [0, 0.8],
+        'text-anchor': 'top',
+        'text-font': ['Open Sans Semibold'],
+        'text-allow-overlap': false,
+      },
+      paint: {
+        'text-color': '#4488ad',
+        // 'text-halo-color': 'rgba(255,255,255,0.8)',
+        // 'text-halo-width': 1,
+      },
+    })
+  }
+})
 </script>
 
 <template>

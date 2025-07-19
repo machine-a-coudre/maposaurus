@@ -24,7 +24,7 @@ const open = ref(false)
     />
 
     <template #content>
-      <div class="flex items-center gap-4 mb-4 justify-between">
+      <div class="flex items-center gap-4 mb-4 justify-between min-w-[500px]">
         <h2 class="text-highlighted font-semibold">Browse themes</h2>
 
         <UButton
@@ -35,43 +35,15 @@ const open = ref(false)
         />
       </div>
 
-      <UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton icon="i-lucide-map" size="lg" color="neutral" variant="soft" />
-      <UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton icon="i-lucide-map" size="lg" color="neutral" variant="soft" />
+      <UInput
+        class="w-full"
+        trailing-icon="i-lucide-search"
+        size="md"
+        variant="outline"
+        :placeholder="$t('map.menu.themes.search.placeholder')"
+      />
+
+      <div class="mt-5">Theme sélectionné : Baignade en France 2024</div>
     </template>
   </UPopover>
 </template>

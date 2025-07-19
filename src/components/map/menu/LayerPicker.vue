@@ -11,20 +11,22 @@ const open = ref(false)
     :ui="{ content: 'p-4' }"
     :content="{ side: 'left', align: 'start' }"
   >
-    <UButton
-      class="hover:cursor-pointer"
-      icon="i-lucide-layers"
-      size="lg"
-      color="neutral"
-      variant="soft"
-      title="Add a layer to the map"
-      :active="open"
-      activeColor="primary"
-      activeVariant="solid"
-    />
+    <UChip inset :text="5" size="3xl">
+      <UButton
+        class="hover:cursor-pointer"
+        icon="i-lucide-layers"
+        size="lg"
+        color="neutral"
+        variant="soft"
+        title="Add a layer to the map"
+        :active="open"
+        activeColor="primary"
+        activeVariant="solid"
+      />
+    </UChip>
 
     <template #content>
-      <div class="flex items-center gap-4 mb-4 justify-between">
+      <div class="flex items-center gap-4 mb-4 justify-between min-w-[500px]">
         <h2 class="text-highlighted font-semibold">Browse layers</h2>
 
         <UButton
@@ -35,43 +37,42 @@ const open = ref(false)
         />
       </div>
 
-      <UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton icon="i-lucide-map" size="lg" color="neutral" variant="soft" />
-      <UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton
-        icon="i-lucide-map"
-        size="lg"
-        color="neutral"
-        variant="soft"
-      /><UButton icon="i-lucide-map" size="lg" color="neutral" variant="soft" />
+      <UInput
+        class="w-full"
+        trailing-icon="i-lucide-search"
+        size="md"
+        variant="outline"
+        :placeholder="$t('map.menu.layers.search.placeholder')"
+      />
+
+      <div class="mt-5">
+        <h4>Liste des couches:</h4>
+
+        <div class="flex items-center gap-2 px-0 py-1">
+          <UButton color="neutral" variant="ghost" icon="i-lucide-eye" />
+          <span class="flex-grow"> Points de baignade en France 2024 </span>
+          <UButton color="neutral" variant="ghost" icon="i-lucide-square-x" />
+        </div>
+
+        <div class="flex items-center gap-2 px-0 py-1">
+          <UButton color="neutral" variant="ghost" icon="i-lucide-eye" />
+          <span class="flex-grow"> Points de baignade en France 2025 </span>
+          <UButton color="neutral" variant="ghost" icon="i-lucide-square-x" />
+        </div>
+
+        <UButton
+          class="hover:cursor-pointer w-full my-2"
+          icon="i-lucide-folder-plus"
+          size="lg"
+          color="neutral"
+          variant="soft"
+          title="Add a layer to the map"
+          :active="open"
+          activeColor="primary"
+          activeVariant="solid"
+          label="Add new layer"
+        />
+      </div>
     </template>
   </UPopover>
 </template>

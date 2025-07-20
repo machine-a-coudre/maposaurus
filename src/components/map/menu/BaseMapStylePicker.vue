@@ -5,6 +5,10 @@ import { useAppStore } from '@/stores/app'
 const appStore = useAppStore()
 const { baseMapKey } = storeToRefs(appStore)
 const items = ['voyager', 'positron', 'dark']
+
+function getImageUrl(name: string) {
+  return new URL(`./assets/img/basemap-${name}.png`, import.meta.url).href
+}
 </script>
 
 <template>
@@ -21,13 +25,19 @@ const items = ['voyager', 'positron', 'dark']
       <div class="grid grid-cols-3 gap-2 pb-2">
         <button
           v-for="item in items"
-          key="item"
+          :key="item"
           class="bm-style__item"
           :class="{ active: baseMapKey === item }"
           @click="() => (baseMapKey = item)"
-          :title="$t('map.menu.basemapmanager.item.tooltip')"
+          :title="$t('map.menu.basemapmanager.item.tooltip', { name: item })"
         >
-          <div class="w-16 h-16 bg-primary rounded-lg"></div>
+          <img
+            class="w-16 h-16 bg-primary rounded-lg"
+            :alt="item"
+            :src="`/img/basemap-${item}.png`"
+            width="64"
+            height="64"
+          />
           <span>{{ item }}</span>
         </button>
       </div>

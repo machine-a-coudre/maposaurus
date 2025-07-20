@@ -5,7 +5,7 @@ const items = ['fr', 'en']
 <template>
   <UButton
     v-for="item in items"
-    key="item"
+    :key="item"
     class="hover:cursor-pointer uppercase"
     color="neutral"
     variant="link"

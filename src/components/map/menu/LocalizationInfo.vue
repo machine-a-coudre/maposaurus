@@ -22,7 +22,7 @@ const proj = ref(projs[0])
 
     <template #content>
       <div class="flex items-center gap-4 mb-4 justify-between min-w-[500px]">
-        <h2 class="text-highlighted font-semibold">Localization info</h2>
+        <h2 class="text-highlighted font-semibold">Localization info (WIP)</h2>
 
         <UButton
           class="cursor-pointer"

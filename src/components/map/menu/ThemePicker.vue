@@ -16,7 +16,7 @@ const items = ref<TabsItem[]>([
 </script>
 
 <template>
-  <BasePopover :title="$t('map.menu.thememanager.title')">
+  <BasePopover :title="$t('map.menu.thememanager.title') + ' (WIP)'">
     <template #trigger="{ open }">
       <BaseButton
         class="mt-6"

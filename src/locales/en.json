@@ -6,8 +6,10 @@
   "map.menu.layers.item.toggle.tooltip": "Show or hide a layer on the map",
   "map.menu.layers.item.styling.tooltip": "Edit layer style",
   "map.menu.layers.item.remove.tooltip": "Remove layer from map",
+
   "map.menu.layers.addnewlayer.button.tooltip": "Add a new layer to the map",
   "map.menu.layers.addnewlayer.button.label": "Add a layer",
+  "map.menu.layers.addnewlayer.modale.title": "Add a new layer",
 
   "map.menu.thememanager.title": "Browse themes",
   "map.menu.thememanager.tooltip": "Show theme manager",
@@ -15,7 +17,7 @@
 
   "map.menu.basemapmanager.title": "Base map",
   "map.menu.basemapmanager.tooltip": "Configure base map",
-  "map.menu.basemapmanager.item.tooltip": "Select this base map",
+  "map.menu.basemapmanager.item.tooltip": "Select \"{name}\" as the base map",
 
   "map.menu.3d.tooltip": "Toggle 3D view mode",
 

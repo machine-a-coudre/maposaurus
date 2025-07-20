@@ -19,7 +19,7 @@ export default defineConfig({
         colors: {
           primary: 'yellow',
           neutral: 'slate'
-        }
+        },
       }
     })
   ],

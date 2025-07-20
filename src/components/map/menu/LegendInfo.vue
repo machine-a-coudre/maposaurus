@@ -11,16 +11,10 @@ const open = ref(false)
     :ui="{ content: 'p-4' }"
     :content="{ side: 'left', align: 'start' }"
   >
-    <UButton
-      class="hover:cursor-pointer"
+    <BaseButton
       icon="i-lucide-scroll-text"
-      size="lg"
-      color="neutral"
-      variant="soft"
-      :title="$t('map.menu.legend.tooltip')"
+      :title="$t('map.menu.legendinfo.tooltip')"
       :active="open"
-      activeColor="primary"
-      activeVariant="solid"
     />
 
     <template #content>

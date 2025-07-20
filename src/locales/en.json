@@ -1,0 +1,23 @@
+{
+  "map.menu.layers.list.title": "Selected layers",
+  "map.menu.layers.title": "Browse map layers",
+  "map.menu.layers.tooltip": "Show layer manager",
+  "map.menu.layers.search.placeholder": "Search for a layer",
+  "map.menu.layers.item.toggle.tooltip": "Show or hide a layer on the map",
+  "map.menu.layers.item.styling.tooltip": "Edit layer style",
+  "map.menu.layers.item.remove.tooltip": "Remove layer from map",
+  "map.menu.layers.addnewlayer.button.tooltip": "Add a new layer to the map",
+  "map.menu.layers.addnewlayer.button.label": "Add a layer",
+
+  "map.menu.thememanager.title": "Browse themes",
+  "map.menu.thememanager.tooltip": "Show theme manager",
+  "map.menu.thememanager.search.placeholder": "Search for a theme",
+
+  "map.menu.basemapmanager.title": "Base map",
+  "map.menu.basemapmanager.tooltip": "Configure base map",
+  "map.menu.basemapmanager.item.tooltip": "Select this base map",
+
+  "map.menu.3d.tooltip": "Toggle 3D view mode",
+
+  "map.menu.basepopover.close.button.tooltip": "Close the popover"
+}

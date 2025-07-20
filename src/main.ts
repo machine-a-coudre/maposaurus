@@ -5,6 +5,10 @@ import { createPinia } from 'pinia'
 import { createI18n } from 'vue-i18n'
 import ui from '@nuxt/ui/vue-plugin'
 
+// TODO: lazy loading
+import localEn from '@/locales/en.json'
+import localFr from '@/locales/fr.json'
+
 import App from './App.vue'
 import router from './router'
 
@@ -13,16 +17,8 @@ const i18n = createI18n({
   locale: 'fr',
   fallbackLocale: 'en',
   messages: {
-    en: {
-      message: {
-        hello: 'hello world',
-      },
-    },
-    fr: {
-      message: {
-        hello: 'bonjour',
-      },
-    },
+    en: localEn,
+    fr: localFr,
   },
 })
 

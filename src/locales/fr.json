@@ -1,0 +1,23 @@
+{
+  "map.menu.layers.list.title": "Couches présentes sur la carte",
+  "map.menu.layers.title": "Parcourir les couches de la carte",
+  "map.menu.layers.tooltip": "Afficher le gestionnaire couches",
+  "map.menu.layers.search.placeholder": "Rechercher une couche",
+  "map.menu.layers.item.toggle.tooltip": "Afficher ou masquer une couche sur la carte",
+  "map.menu.layers.item.styling.tooltip": "Editer le style de la couche",
+  "map.menu.layers.item.remove.tooltip": "Supprimer la couche de la carte",
+  "map.menu.layers.addnewlayer.button.tooltip": "Ajouter une nouvelle couche sur la carte",
+  "map.menu.layers.addnewlayer.button.label": "Ajouter une couche",
+
+  "map.menu.thememanager.title": "Parcourir les thèmes",
+  "map.menu.thememanager.tooltip": "Afficher le gestionnaire de thèmes",
+  "map.menu.thememanager.search.placeholder": "Rechercher un theme",
+
+  "map.menu.basemapmanager.title": "Fonds de carte",
+  "map.menu.basemapmanager.tooltip": "Configurer le fond de carte",
+  "map.menu.basemapmanager.item.tooltip": "Sélectionner ce fond de carte",
+
+  "map.menu.3d.tooltip": "Activer ou désactiver le mode 3D",
+
+  "map.menu.basepopover.close.button.tooltip": "Fermer le menu"
+}

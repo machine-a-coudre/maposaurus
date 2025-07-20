@@ -1,46 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/stores/app'
 
-const open = ref(false)
 const appStore = useAppStore()
 const { baseMapKey } = storeToRefs(appStore)
 const items = ['voyager', 'positron', 'dark']
 </script>
 
 <template>
-  <UPopover
-    v-model:open="open"
-    :dismissible="false"
-    :ui="{ content: 'p-4' }"
-    :content="{ side: 'left', align: 'start' }"
-  >
-    <UButton
-      class="hover:cursor-pointer"
-      icon="i-lucide-map"
-      size="lg"
-      color="neutral"
-      variant="soft"
-      title="Configure base map style"
-      :active="open"
-      activeColor="primary"
-      activeVariant="solid"
-    />
+  <BasePopover :title="$t('map.menu.basemapmanager.title')">
+    <template #trigger="{ open }">
+      <BaseButton
+        icon="i-lucide-map"
+        :title="$t('map.menu.basemapmanager.tooltip')"
+        :active="open"
+      />
+    </template>
 
     <template #content>
-      <div class="flex items-center gap-4 mb-4 min-w-[400px]">
-        <h2 class="flex-grow text-highlighted font-semibold">Base map style</h2>
-
-        <UButton
-          class="cursor-pointer"
-          color="neutral"
-          variant="ghost"
-          icon="i-lucide-x"
-          @click="open = false"
-        />
-      </div>
-
       <div class="grid grid-cols-3 gap-2 pb-2">
         <button
           v-for="item in items"
@@ -48,14 +25,14 @@ const items = ['voyager', 'positron', 'dark']
           class="bm-style__item"
           :class="{ active: baseMapKey === item }"
           @click="() => (baseMapKey = item)"
-          :title="$t('map.menu.basemap.item.tooltip')"
+          :title="$t('map.menu.basemapmanager.item.tooltip')"
         >
           <div class="w-16 h-16 bg-primary rounded-lg"></div>
           <span>{{ item }}</span>
         </button>
       </div>
     </template>
-  </UPopover>
+  </BasePopover>
 </template>
 
 <style lang="css" scoped>

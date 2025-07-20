@@ -16,7 +16,7 @@ const proj = ref(projs[0])
   >
     <BaseButton
       icon="i-lucide-map-pinned"
-      :title="$t('map.menu.localization.tooltip')"
+      :title="$t('map.menu.localizationinfo.tooltip')"
       :active="open"
     />
 

@@ -8,9 +8,13 @@ import { RouterLink, RouterView } from 'vue-router'
       <img class="logo" src="./assets/logo.svg" height="40px" width="40px" />
       <span class="text-lg">Maposaurus</span>
 
-      <p class="ml-10 text-sm">
-        © 2025 Maposaurus by <b>Machine-a-coudre</b> - All rights reserved
+      <p class="ml-10 text-sm grow">
+        © 2025 Maposaurus by <b>Machine-a-coudre</b>. All rights reserved
       </p>
+
+      <div>
+        <LanguageSwitcher />
+      </div>
       <!-- <nav class="ml-10 flex gap-4">
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>

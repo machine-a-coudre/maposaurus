@@ -3,9 +3,14 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <div class="flex flex-col flex-col-reverse">
+  <div class="flex flex-col-reverse">
     <header class="h-12 max-h-12 mx-6 flex gap-2 items-center overflow-hidden">
-      <img class="logo" src="./assets/logo.svg" height="40px" width="40px" />
+      <img
+        class="logo dark:filter dark:brightness-0 dark:invert"
+        src="@/assets/logo.svg"
+        height="40px"
+        width="40px"
+      />
       <span class="text-lg">Maposaurus</span>
 
       <p class="ml-10 text-sm grow">
@@ -24,9 +29,3 @@ import { RouterLink, RouterView } from 'vue-router'
     <RouterView />
   </div>
 </template>
-
-<style scoped>
-img.logo {
-  filter: brightness(0) invert(1);
-}
-</style>

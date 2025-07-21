@@ -142,9 +142,11 @@ function onClickLayerItem(
       </template>
 
       <template v-else="serviceCapabilities?.layers?.length">
-        <p class="font-bold">{{  serviceCapabilities?.title }}</p>
-        <p class="text-sm"
-          v-if="serviceCapabilities?.title !== serviceCapabilities?.abstract">
+        <p class="font-bold">{{ serviceCapabilities?.title }}</p>
+        <p
+          class="text-sm"
+          v-if="serviceCapabilities?.title !== serviceCapabilities?.abstract"
+        >
           {{ serviceCapabilities?.abstract }}
         </p>
         <p class="text-sm">{{ serviceUrl }}</p>
@@ -159,7 +161,11 @@ function onClickLayerItem(
         />
 
         <ul class="flex flex-col gap-1" v-if="serviceCapabilities">
-          <li v-for="layer in serviceCapabilities.layers" :key="layer.name" class="flex">
+          <li
+            v-for="layer in serviceCapabilities.layers"
+            :key="layer.name"
+            class="flex"
+          >
             <span
               ><UIcon name="i-lucide-layers-2" size="md" class="mt-2"
             /></span>

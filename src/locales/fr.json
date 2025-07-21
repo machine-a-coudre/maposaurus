@@ -1,6 +1,8 @@
 {
   "app.wip": "Cette fonctionnalité n'est pas encore disponible !",
 
+  "map.menu.legends.title": "Légendes",
+
   "map.menu.layers.list.title": "Couches présentes sur la carte",
   "map.menu.layers.title": "Parcourir les couches de la carte",
   "map.menu.layers.tooltip": "Afficher le gestionnaire couches",

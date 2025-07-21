@@ -10,9 +10,9 @@ export type LayerDefinition = {
 
 export const useAppStore = defineStore('app', () => {
   const baseMapKey = ref<string | undefined>('positron')
-  const mapMode = ref<string>('map')
-  const mapReady = ref(false)
-  const mapLayerCollection = shallowRef<LayerDefinition[]>([])
+  const mapMode = ref<string>('map') // TODO: create a sore for the map
+  const mapReady = ref(false) // TODO: create a sore for the map
+  const mapLayerCollection = shallowRef<LayerDefinition[]>([]) // TODO: create a sore for the map
 
   /**
    * Switch projection mode from map to globe

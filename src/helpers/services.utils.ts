@@ -1,8 +1,8 @@
 export async function getCapabilities(url: string, serviceType: string) {
   const ns = {
-  ows: "http://www.opengis.net/ows/1.1",
-  wfs: "http://www.opengis.net/wfs/2.0"
-};
+    ows: 'http://www.opengis.net/ows/1.1',
+    wfs: 'http://www.opengis.net/wfs/2.0',
+  }
 
   try {
     const response = await fetch(
@@ -17,9 +17,18 @@ export async function getCapabilities(url: string, serviceType: string) {
     const parser = new DOMParser()
     const xmlDoc = parser.parseFromString(xmlText, 'text/xml')
 
-const serviceIdentification = xmlDoc.getElementsByTagNameNS(ns.ows, "ServiceIdentification")[0];
-const title = serviceIdentification?.getElementsByTagNameNS(ns.ows, "Title")[0]?.textContent;
-const abstract = serviceIdentification?.getElementsByTagNameNS(ns.ows, "Abstract")[0]?.textContent;
+    const serviceIdentification = xmlDoc.getElementsByTagNameNS(
+      ns.ows,
+      'ServiceIdentification',
+    )[0]
+    const title = serviceIdentification?.getElementsByTagNameNS(
+      ns.ows,
+      'Title',
+    )[0]?.textContent
+    const abstract = serviceIdentification?.getElementsByTagNameNS(
+      ns.ows,
+      'Abstract',
+    )[0]?.textContent
 
     const featureTypes = xmlDoc.getElementsByTagName('FeatureType')
     const layers = []
@@ -44,7 +53,7 @@ const abstract = serviceIdentification?.getElementsByTagNameNS(ns.ows, "Abstract
     return {
       title,
       abstract,
-      layers
+      layers,
     }
   } catch (error) {
     console.error('Error:', error)

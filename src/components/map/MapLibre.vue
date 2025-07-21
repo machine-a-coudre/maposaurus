@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
 import { useMapLibre } from '@/composables/maplibre'
 import { useAppStore } from '@/stores/app'
-import { storeToRefs } from 'pinia'
 import { useLayerconnector } from '@/composables/layerconnector'
 
 const props = defineProps<{
   containerId?: string
-  mode?: string // 'map' | 'globe'
+  mode?: 'map' | 'globe'
 }>()
 
 const appStore = useAppStore()
@@ -17,7 +17,7 @@ const { mapReady } = storeToRefs(appStore)
 const layerConnector = useLayerconnector()
 const mapLibre = useMapLibre(props.containerId, props.mode)
 
-watch(mapReady, async (r) => {
+watch(mapReady, async (r) => { // TODO: move in maplibre composable
   if (r) {
     const bathingSites = await layerConnector.getBaignadeData()
 

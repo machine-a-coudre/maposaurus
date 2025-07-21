@@ -6,6 +6,8 @@ import { useAppStore } from '@/stores/app'
 const appStore = useAppStore()
 const { mapLayerCollection } = storeToRefs(appStore)
 const showLayer = ref(true)
+
+// TODO: refactor
 </script>
 
 <template>

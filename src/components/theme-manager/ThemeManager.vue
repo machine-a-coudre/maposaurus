@@ -1,0 +1,44 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import type { TabsItem } from '@nuxt/ui'
+
+const items = ref<TabsItem[]>([
+  {
+    label: 'All',
+  },
+  {
+    label: 'Geology',
+  },
+  {
+    label: 'FR - Summer',
+  },
+])
+</script>
+
+<template>
+  <div class="min-w-[700px]">
+    <UInput
+      class="w-full"
+      trailing-icon="i-lucide-search"
+      size="md"
+      variant="outline"
+      :placeholder="$t('map.menu.thememanager.search.placeholder')"
+    />
+
+    <UTabs
+      color="primary"
+      variant="link"
+      :content="false"
+      :items="items"
+      class="w-full my-8"
+    />
+
+    <UAlert
+      color="warning"
+      variant="subtle"
+      :title="'Oops'"
+      :description="$t('app.wip')"
+      icon="i-lucide-bone"
+    />
+  </div>
+</template>

@@ -44,7 +44,13 @@ const items = ref<TabsItem[]>([
           class="w-full my-8"
         />
 
-        <div class="mt-5">Theme sélectionné : Baignade en France 2024</div>
+        <UAlert
+          color="warning"
+          variant="subtle"
+          :title="'Oops'"
+          :description="$t('app.wip')"
+          icon="i-lucide-bone"
+        />
       </div>
     </template>
   </BasePopover>

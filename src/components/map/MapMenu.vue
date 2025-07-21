@@ -16,24 +16,21 @@ const { t } = useI18n()
     <BaseButton
       class="mt-6"
       icon="i-lucide-pencil-ruler"
-      :title="t('map.menu.tools.tooltip')"
+      :title="$t('app.wip')"
+      :disabled="true"
     />
     <LocalizationInfo />
     <BaseButton
       icon="i-lucide-message-circle-question-mark"
-      :title="t('map.menu.question.tooltip')"
+      :title="$t('app.wip')"
       :disabled="true"
     />
     <BaseButton
       icon="i-lucide-printer"
-      :title="t('map.menu.print.tooltip')"
+      :title="$t('app.wip')"
       :disabled="true"
     />
-    <BaseButton
-      icon="i-lucide-save"
-      :title="t('map.menu.save.tooltip')"
-      :disabled="true"
-    />
+    <BaseButton icon="i-lucide-save" :title="$t('app.wip')" :disabled="true" />
     <BaseMapStylePicker class="mt-6" />
     <BaseButton
       icon="i-lucide-box"

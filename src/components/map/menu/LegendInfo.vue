@@ -13,7 +13,7 @@ const open = ref(false)
   >
     <BaseButton
       icon="i-lucide-scroll-text"
-      :title="$t('map.menu.legendinfo.tooltip')"
+      :title="$t('app.wip')"
       :active="open"
     />
 
@@ -29,8 +29,13 @@ const open = ref(false)
         />
       </div>
 
-      <h4>Title first layer</h4>
-      Legend here (TODO)
+      <UAlert
+        color="warning"
+        variant="subtle"
+        :title="'Oops'"
+        :description="$t('app.wip')"
+        icon="i-lucide-bone"
+      />
     </template>
   </UPopover>
 </template>

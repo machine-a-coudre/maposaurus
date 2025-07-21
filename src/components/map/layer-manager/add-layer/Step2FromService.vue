@@ -68,6 +68,57 @@ function onClickLayerItem(
               />
             </template>
           </UInput>
+
+          <div class="mt-3 flex gap-2">
+            <UButton
+              class="text-xs"
+              variant="outline"
+              color="neutral"
+              :active="true"
+              activeColor="primary"
+              >WFS</UButton
+            >
+            <UButton
+              class="text-xs"
+              variant="outline"
+              color="neutral"
+              :disabled="true"
+              :title="$t('app.wip')"
+              >WMS</UButton
+            >
+            <UButton
+              class="text-xs"
+              variant="outline"
+              color="neutral"
+              :disabled="true"
+              :title="$t('app.wip')"
+              >WMTS</UButton
+            >
+            <UButton
+              class="text-xs"
+              variant="outline"
+              color="neutral"
+              :disabled="true"
+              :title="$t('app.wip')"
+              >1.0.0</UButton
+            >
+            <UButton
+              class="text-xs"
+              variant="outline"
+              color="neutral"
+              :disabled="true"
+              :title="$t('app.wip')"
+              >1.1.0</UButton
+            >
+            <UButton
+              class="text-xs"
+              variant="outline"
+              color="neutral"
+              :active="true"
+              activeColor="primary"
+              >2.2.0</UButton
+            >
+          </div>
         </UFormField>
 
         <UButton

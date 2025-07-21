@@ -49,6 +49,14 @@ const proj = ref(projs[0])
 
         <USelectMenu v-model="proj" :items="projs" />
       </UButtonGroup>
+
+      <UAlert
+        color="warning"
+        variant="subtle"
+        :title="'Oops'"
+        :description="$t('app.wip')"
+        icon="i-lucide-bone"
+      />
     </template>
   </UPopover>
 </template>

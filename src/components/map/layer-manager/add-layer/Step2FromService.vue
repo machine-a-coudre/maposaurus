@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, shallowRef } from 'vue'
 import { getCapabilities } from '@/helpers/services.utils'
 import { useAppStore, type LayerDefinition } from '@/stores/app'
 
@@ -8,10 +8,16 @@ const serviceUrl = ref('https://mapsref.brgm.fr/wxs/georisques/risques') // eg. 
 const servicesLayers = ref<{ name: string; title: string; abstract: string }[]>(
   [],
 )
+const serviceCapabilities = shallowRef(undefined)
 
 async function onClickGetServiceLayers(url: string) {
   servicesLayers.value = []
-  servicesLayers.value = await getCapabilities(url, 'wfs')
+  serviceCapabilities.value = undefined
+
+  serviceCapabilities.value = await getCapabilities(url, 'wfs')
+  // servicesLayers.value = capabilities.layers
+
+  console.log('serviceCapabilities', serviceCapabilities.value)
 }
 
 function onClickLayerItem(
@@ -46,7 +52,7 @@ function onClickLayerItem(
     />
 
     <div>
-      <template v-if="!servicesLayers?.length">
+      <template v-if="!serviceCapabilities?.layers?.length">
         <UFormField
           label="Url du service WFS"
           description="à partir de laquelle interroger la liste des couches"
@@ -135,8 +141,15 @@ function onClickLayerItem(
         />
       </template>
 
-      <template v-else="servicesLayers?.length">
-        {{ serviceUrl }}
+      <template v-else="serviceCapabilities?.layers?.length">
+        <p class="font-bold">{{  serviceCapabilities?.title }}</p>
+        <p class="text-sm"
+          v-if="serviceCapabilities?.title !== serviceCapabilities?.abstract">
+          {{ serviceCapabilities?.abstract }}
+        </p>
+        <p class="text-sm">{{ serviceUrl }}</p>
+        <p class="text-sm">WFS 2.0.0</p>
+
         <UInput
           class="my-4 w-full"
           icon="i-lucide-search"
@@ -145,8 +158,8 @@ function onClickLayerItem(
           placeholder="Search..."
         />
 
-        <ul class="flex flex-col gap-1">
-          <li v-for="layer in servicesLayers" :key="layer.name" class="flex">
+        <ul class="flex flex-col gap-1" v-if="serviceCapabilities">
+          <li v-for="layer in serviceCapabilities.layers" :key="layer.name" class="flex">
             <span
               ><UIcon name="i-lucide-layers-2" size="md" class="mt-2"
             /></span>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useAppStore } from '@/stores/app'
 import { storeToRefs } from 'pinia'
+import { useAppStore } from '@/stores/app'
 
 const appStore = useAppStore()
 const { mapLayerCollection } = storeToRefs(appStore)

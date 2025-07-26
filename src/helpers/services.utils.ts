@@ -1,4 +1,11 @@
-export async function getCapabilities(url: string, serviceType: string) {
+export type MTServiceProtocol = 'WFS' | 'WMS' | 'WMTS'
+export type MTServiceVersion = '1.0.0' | '1.1.0' | '1.3.0' | '2.2.0'
+
+export async function getCapabilities(
+  url: string,
+  serviceProtocol: MTServiceProtocol,
+  serviceVersion: MTServiceVersion,
+) {
   const ns = {
     ows: 'http://www.opengis.net/ows/1.1',
     wfs: 'http://www.opengis.net/wfs/2.0',
@@ -6,7 +13,7 @@ export async function getCapabilities(url: string, serviceType: string) {
 
   try {
     const response = await fetch(
-      `${url}?service=${serviceType}&version=2.0.0&request=GetCapabilities`,
+      `${url}?service=${serviceProtocol}&version=${serviceVersion}&request=GetCapabilities`,
     )
 
     if (!response.ok) {

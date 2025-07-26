@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref, shallowRef } from 'vue'
-import { getCapabilities } from '@/helpers/services.utils'
+import {
+  getCapabilities,
+  type MTServiceProtocol,
+  type MTServiceVersion,
+} from '@/helpers/services.utils'
 import { useAppStore, type LayerDefinition } from '@/stores/app'
 
 const appStore = useAppStore()
@@ -9,33 +13,23 @@ const servicesLayers = ref<{ name: string; title: string; abstract: string }[]>(
   [],
 )
 const serviceCapabilities = shallowRef(undefined)
+const serviceProtocol = ref<MTServiceProtocol>('WFS')
+const serviceVersion = ref<MTServiceVersion>('2.2.0')
 
 async function onClickGetServiceLayers(url: string) {
   servicesLayers.value = []
-  serviceCapabilities.value = undefined
-
-  serviceCapabilities.value = await getCapabilities(url, 'wfs')
-  // servicesLayers.value = capabilities.layers
-
-  console.log('serviceCapabilities', serviceCapabilities.value)
+  serviceCapabilities.value = await getCapabilities(
+    url,
+    serviceProtocol.value,
+    serviceVersion.value,
+  )
 }
 
-function onClickLayerItem(
-  name: string,
-  title: string,
-  abstract: string,
-  serviceUrl: string,
-) {
-  const url = `${serviceUrl}?service=WFS&request=GetFeature&version=2.0.0&srsName=EPSG%3A4326&typeNames=${encodeURIComponent(name)}&outputFormat=${encodeURIComponent('application/json; subtype=geojson; charset=utf-8')}`
+function onClickLayerItem(layer: Record<string, string>) {
+  const { name } = layer
+  const url = `${serviceUrl.value}?service=WFS&request=GetFeature&version=2.0.0&srsName=EPSG%3A4326&typeNames=${encodeURIComponent(name)}&outputFormat=${encodeURIComponent('application/json; subtype=geojson; charset=utf-8')}`
 
-  // https://mapsref.brgm.fr/wxs/georisques/risques?service=WFS&request=GetFeature&version=1.1.0&srsName=EPSG:3857&typeName=TOPO_I_CULTURE_LOISIRS_CAMPING
-
-  appStore.addLayerToCollection(<LayerDefinition>{
-    name,
-    abstract,
-    url,
-    title,
-  })
+  appStore.addLayerToCollection(<LayerDefinition>{ ...layer, url })
 }
 </script>
 
@@ -54,12 +48,12 @@ function onClickLayerItem(
     <div>
       <template v-if="!serviceCapabilities?.layers?.length">
         <UFormField
-          label="Url du service WFS"
+          label="Url du service"
           description="à partir de laquelle interroger la liste des couches"
         >
           <UInput
             class="w-full"
-            placeholder="https://mapsref.brgm.fr/wxs/georisques/risques"
+            placeholder="https://service.org/wxs/example"
             :ui="{ trailing: 'pe-1' }"
             v-model="serviceUrl"
           >
@@ -77,52 +71,33 @@ function onClickLayerItem(
 
           <div class="mt-3 flex gap-2">
             <UButton
-              class="text-xs"
+              v-for="protocol in <MTServiceProtocol[]>['WFS', 'WMS', 'WMTS']"
+              :key="protocol"
+              class="text-xs hover:cursor-pointer"
               variant="outline"
               color="neutral"
-              :active="true"
+              :active="serviceProtocol === protocol"
               activeColor="primary"
-              >WFS</UButton
+              @click="serviceProtocol = protocol"
+              >{{ protocol }}</UButton
             >
+
             <UButton
-              class="text-xs"
+              v-for="version in <MTServiceVersion[]>[
+                '1.0.0',
+                '1.1.0',
+                '1.3.0',
+                '2.2.0',
+              ]"
+              :key="version"
+              class="text-xs hover:cursor-pointer"
               variant="outline"
               color="neutral"
-              :disabled="true"
-              :title="$t('app.wip')"
-              >WMS</UButton
-            >
-            <UButton
-              class="text-xs"
-              variant="outline"
-              color="neutral"
-              :disabled="true"
-              :title="$t('app.wip')"
-              >WMTS</UButton
-            >
-            <UButton
-              class="text-xs"
-              variant="outline"
-              color="neutral"
-              :disabled="true"
-              :title="$t('app.wip')"
-              >1.0.0</UButton
-            >
-            <UButton
-              class="text-xs"
-              variant="outline"
-              color="neutral"
-              :disabled="true"
-              :title="$t('app.wip')"
-              >1.1.0</UButton
-            >
-            <UButton
-              class="text-xs"
-              variant="outline"
-              color="neutral"
-              :active="true"
               activeColor="primary"
-              >2.2.0</UButton
+              :active="serviceVersion === version"
+              :title="version"
+              @click="serviceVersion = version"
+              >{{ version }}</UButton
             >
           </div>
         </UFormField>
@@ -166,34 +141,10 @@ function onClickLayerItem(
             :key="layer.name"
             class="flex"
           >
-            <span
-              ><UIcon name="i-lucide-layers-2" size="md" class="mt-2"
-            /></span>
-            <div class="grow">
-              <UButton
-                class="hover:cursor-pointer w-full max-w-full font-normal flex flex-col"
-                color="neutral"
-                variant="ghost"
-                @click="
-                  onClickLayerItem(
-                    layer.name,
-                    layer.title,
-                    layer.abstract,
-                    serviceUrl,
-                  )
-                "
-              >
-                <span class="text-left w-full"
-                  >{{ layer.title }} <span>({{ layer.name }})</span></span
-                >
-                <span
-                  v-if="layer.abstract && layer.title !== layer.abstract"
-                  class="text-left w-full text-xs opacity-65"
-                >
-                  {{ layer.abstract }}
-                </span>
-              </UButton>
-            </div>
+            <Step2FromServiceLayersItem
+              :layer="layer"
+              @select="onClickLayerItem(layer)"
+            />
           </li>
         </ul>
       </template>

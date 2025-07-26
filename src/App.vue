@@ -14,7 +14,8 @@ import { RouterLink, RouterView } from 'vue-router'
       <span class="text-lg">Maposaurus</span>
 
       <p class="ml-10 text-sm grow">
-        © 2025 Maposaurus by <b>Machine-a-coudre</b>. All rights reserved.
+        © 2025 Maposaurus by <b>Machine-a-coudre</b>, made in 42. All rights
+        reserved.
       </p>
 
       <div>

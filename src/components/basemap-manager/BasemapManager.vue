@@ -8,11 +8,11 @@ const items = ['voyager', 'positron', 'dark'] // TODO: add more
 </script>
 
 <template>
-  <div class="grid grid-cols-3 gap-2 pb-2">
+  <div class="bm grid grid-cols-3 gap-2 pb-2">
     <button
       v-for="item in items"
       :key="item"
-      class="bm-style__item"
+      class="bm__item"
       :class="{ active: baseMapKey === item }"
       @click="() => (baseMapKey = item)"
       :title="$t('map.menu.basemapmanager.item.tooltip', { name: item })"
@@ -30,7 +30,7 @@ const items = ['voyager', 'positron', 'dark'] // TODO: add more
 </template>
 
 <style lang="css" scoped>
-.bm-style__item {
+.bm__item {
   border: 1px solid rgba(255, 255, 255, 0);
   display: flex;
   flex-direction: column;

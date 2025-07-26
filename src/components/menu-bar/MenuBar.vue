@@ -9,7 +9,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div class="flex flex-col gap-1">
+  <div class="menuBar flex flex-col gap-1">
     <ThemeManagerButton />
     <LayerManagerButton />
     <LegendManagerButton />

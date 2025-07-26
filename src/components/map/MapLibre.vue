@@ -17,7 +17,8 @@ const { mapReady } = storeToRefs(appStore)
 const layerConnector = useLayerconnector()
 const mapLibre = useMapLibre(props.containerId, props.mode)
 
-watch(mapReady, async (r) => { // TODO: move in maplibre composable
+watch(mapReady, async (r) => {
+  // TODO: move in maplibre composable
   if (r) {
     const bathingSites = await layerConnector.getBaignadeData()
 

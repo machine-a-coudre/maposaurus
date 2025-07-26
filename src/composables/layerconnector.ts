@@ -1,8 +1,7 @@
 export function useLayerconnector() {
-
   /**
    * WIP!!!! layer WFS test TODO: clean
-   * @returns 
+   * @returns
    */
   async function getBaignadeData() {
     const [sitesResponse, alertsResponse] = await Promise.all([

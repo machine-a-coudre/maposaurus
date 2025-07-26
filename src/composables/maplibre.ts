@@ -42,33 +42,19 @@ export function useMapLibre(containerId = 'map', type = 'map') {
       layersToPreserve.push(layer)
     })
 
-    // if (mapv.getLayer('bathing-sites-layer')) {
-    //   layersToPreserve.push(
-    //     mapv.getStyle().layers.find((l) => l.id === 'bathing-sites-layer'),
-    //   )
-    // }
-
-    // 2. Sauvegardez les sources
-    if (mapv.getSource('bathing-sites')) {
-      sourcesToPreserve['bathing-sites'] = mapv
-        .getSource('bathing-sites')
-        .serialize()
-    }
-
     mapv.setStyle(PREDEFINED_STYLES[k])
 
     mapv.once('styledata', () => {
-      // Restaurez les sources
+      // Restore sources
       Object.entries(sourcesToPreserve).forEach(([id, source]) => {
         if (!mapv.getSource(id)) {
           mapv.addSource(id, source)
         }
       })
 
-      // Restaurez les couches
+      // Restore layers
       layersToPreserve.forEach((layer) => {
         if (!mapv.getLayer(layer.id)) {
-          // Vérifiez que la source existe avant d'ajouter la couche
           if (mapv.getSource(layer.source)) {
             mapv.addLayer(layer)
           }

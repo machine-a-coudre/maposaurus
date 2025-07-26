@@ -9,7 +9,12 @@ const { mapLayerCollection } = storeToRefs(appStore)
 <template>
   <BasePopover :title="$t('map.menu.layers.title')">
     <template #trigger="{ open }">
-      <UChip inset :text="mapLayerCollection.length + 1" size="3xl">
+      <UChip
+        inset
+        size="3xl"
+        :text="mapLayerCollection.length"
+        :show="!!mapLayerCollection.length"
+      >
         <BaseButton
           icon="i-lucide-layers"
           :title="$t('map.menu.layers.tooltip')"

@@ -3,7 +3,7 @@
 
   "map.menu.legends.title": "Legends",
 
-  "map.menu.layers.list.title": "Selected layers",
+  "map.menu.layers.list.title": "Layers on the map",
   "map.menu.layers.title": "Browse map layers",
   "map.menu.layers.tooltip": "Show layer manager",
   "map.menu.layers.search.placeholder": "Search for a layer",

@@ -3,7 +3,7 @@ import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/stores/app'
 
 const appStore = useAppStore()
-const { mapLayerCollection } = storeToRefs(appStore)
+const { mapLayersCollection } = storeToRefs(appStore)
 </script>
 
 <template>
@@ -12,8 +12,8 @@ const { mapLayerCollection } = storeToRefs(appStore)
       <UChip
         inset
         size="3xl"
-        :text="mapLayerCollection.length"
-        :show="!!mapLayerCollection.length"
+        :text="mapLayersCollection.length"
+        :show="!!mapLayersCollection.length"
       >
         <BaseButton
           icon="i-lucide-layers"

@@ -3,7 +3,7 @@ import { watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import 'maplibre-gl/dist/maplibre-gl.css'
 
-import { useMapLibre } from '@/composables/maplibre'
+import { useMapLibre } from '@/composables/maplibre/maplibre'
 import { useAppStore } from '@/stores/app'
 
 const props = defineProps<{

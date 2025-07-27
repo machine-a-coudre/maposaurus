@@ -6,13 +6,15 @@ export type MTLayerDefinition = {
   abstract: string
   url: string
   title: string
+  visibility: boolean
+  error: boolean
 }
 
 export const useAppStore = defineStore('app', () => {
   const baseMapKey = ref<string | undefined>('positron')
   const mapMode = ref<string>('map') // TODO: create a sore for the map
   const mapReady = ref(false) // TODO: create a sore for the map
-  const mapLayerCollection = shallowRef<MTLayerDefinition[]>([]) // TODO: create a sore for the map
+  const mapLayersCollection = shallowRef<MTLayerDefinition[]>([]) // TODO: create a sore for the map
 
   /**
    * Switch projection mode from map to globe
@@ -26,15 +28,43 @@ export const useAppStore = defineStore('app', () => {
    * @param layer The layer definition to be added to the collection
    */
   function addLayerToCollection(layer: MTLayerDefinition) {
-    mapLayerCollection.value = [...mapLayerCollection.value, layer]
+    if (!mapLayersCollection.value.some((l) => l.name === layer.name)) {
+      mapLayersCollection.value = [...mapLayersCollection.value, layer]
+    }
+  }
+
+  function isLayerInCollection(layer: MTLayerDefinition) {
+    return mapLayersCollection.value.some((l) => l.name === layer.name)
+  }
+
+  function removeLayerFromCollection(layerName: string) {
+    mapLayersCollection.value = mapLayersCollection.value.filter(
+      (l) => l.name !== layerName,
+    )
+  }
+
+  function toggleLayerVisibility(layerName: string) {
+    mapLayersCollection.value = mapLayersCollection.value.map((l) =>
+      l.name === layerName ? { ...l, visibility: !l.visibility } : l,
+    )
+  }
+
+  function setLayerInError(layerName: string) {
+    mapLayersCollection.value = mapLayersCollection.value.map((l) =>
+      l.name === layerName ? { ...l, error: true } : l,
+    )
   }
 
   return {
     baseMapKey,
     mapMode,
     mapReady,
-    mapLayerCollection,
+    mapLayersCollection,
     addLayerToCollection,
+    isLayerInCollection,
+    removeLayerFromCollection,
     toggleMapMode,
+    toggleLayerVisibility,
+    setLayerInError,
   }
 })

@@ -28,8 +28,10 @@ async function onClickGetServiceLayers(url: string) {
 function onClickLayerItem(layer: Record<string, string>) {
   const { name } = layer
   const url = `${serviceUrl.value}?service=WFS&request=GetFeature&version=2.0.0&srsName=EPSG%3A4326&typeNames=${encodeURIComponent(name)}&outputFormat=${encodeURIComponent('application/json; subtype=geojson; charset=utf-8')}`
+  const visibility = true
 
-  appStore.addLayerToCollection(<LayerDefinition>{ ...layer, url })
+  // TODO: move layer creation
+  appStore.addLayerToCollection(<LayerDefinition>{ ...layer, url, visibility })
 }
 </script>
 

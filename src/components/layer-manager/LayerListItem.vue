@@ -25,22 +25,23 @@ function onClickToggleLayerVisibility() {
     @mouseenter="showLayerTools = true"
     @mouseleave="showLayerTools = false"
   >
-    <UButton
-      class="hover:cursor-pointer"
-      color="neutral"
-      variant="ghost"
-      @click.stop.prevent="onClickToggleLayerVisibility"
-      :disabled="layer.error"
-      :icon="showLayer ? 'i-lucide-eye' : 'i-lucide-eye-closed'"
-      :title="$t('map.menu.layers.item.toggle.tooltip')"
-    />
-
-    <div class="ll__item__title flex-grow w-[350px] max-w-[350px]">
+    <div
+      class="ll__item__title flex-grow w-[350px] max-w-[350px] flex items-center gap-2"
+      :class="{
+        'italic opacity-60': layer.error,
+        'opacity-30': !layer.visibility,
+      }"
+    >
+      <UButton
+        :color="layer.error ? 'neutral' : 'primary'"
+        variant="ghost"
+        icon="i-lucide-grip"
+        :title="$t('map.menu.layers.item.styling.tooltip')"
+        :disabled="true"
+      />
       <p class="overflow-hidden text-ellipsis truncate">
         <UTooltip :delay-duration="0" :text="`[${layer.name}] ${layer.title}`">
-          <span :class="{ 'italic opacity-60': layer.error }">{{
-            layer.title
-          }}</span>
+          <span>{{ layer.title }}</span>
         </UTooltip>
         <UBadge
           v-if="layer.error"
@@ -64,6 +65,15 @@ function onClickToggleLayerVisibility() {
         icon="i-lucide-paintbrush"
         :title="$t('map.menu.layers.item.styling.tooltip')"
         :disabled="true"
+      />
+      <UButton
+        class="hover:cursor-pointer"
+        color="neutral"
+        variant="ghost"
+        @click.stop.prevent="onClickToggleLayerVisibility"
+        :disabled="layer.error"
+        :icon="showLayer ? 'i-lucide-eye' : 'i-lucide-eye-closed'"
+        :title="$t('map.menu.layers.item.toggle.tooltip')"
       />
       <UButton
         class="hover:cursor-pointer"

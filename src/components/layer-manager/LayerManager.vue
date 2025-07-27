@@ -8,9 +8,9 @@
   />
 
   <div class="mt-8 max-h-dvh overflow-y-auto">
-    <h4 class="text-sm opacity-75 uppercase">
+    <!-- <h4 class="text-sm opacity-75 uppercase">
       {{ $t('map.menu.layers.list.title') }}
-    </h4>
+    </h4> -->
 
     <LayerList />
 

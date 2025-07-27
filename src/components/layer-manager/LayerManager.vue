@@ -7,7 +7,7 @@
     :placeholder="$t('map.menu.layers.search.placeholder')"
   />
 
-  <div class="mt-8">
+  <div class="mt-8 max-h-dvh overflow-y-auto">
     <h4 class="text-sm opacity-75 uppercase">
       {{ $t('map.menu.layers.list.title') }}
     </h4>

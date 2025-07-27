@@ -101,14 +101,21 @@ export function useMapLibre(containerId = 'map', type = 'map') {
 
           // TODO: toast not working
           toast.add({
-            title: 'New layer on the map!',
-            description:
-              'The layer xxx has been successfully added to the map.',
-            icon: 'lucide-map-plus',
+            color: 'success',
+            title: `The layer "${layer.title}" has been successfully added to the map.`,
+            icon: 'lucide-circle-check-big',
+            progress: false,
           })
         } catch (e) {
           console.error(e)
           appStore.setLayerInError(layer.name)
+          toast.add({
+            color: 'error',
+            title: `Error for "${layer.title}"`,
+            description: `Unable to add layer "[${layer.name}] ${layer.title}" to the map, please check service paramaters or API response.`,
+            icon: 'lucide-circle-x',
+            progress: false,
+          })
           // ...
         } // TODO: check diff and do not try do add already added
       }

@@ -35,12 +35,13 @@ function onClickToggleLayerVisibility() {
       :title="$t('map.menu.layers.item.toggle.tooltip')"
     />
 
-    <div
-      class="ll__item__title flex-grow w-[350px] max-w-[350px]"
-      :title="layer.title"
-    >
+    <div class="ll__item__title flex-grow w-[350px] max-w-[350px]">
       <p class="overflow-hidden text-ellipsis truncate">
-        {{ layer.title }}
+        <UTooltip :delay-duration="0" :text="`[${layer.name}] ${layer.title}`">
+          <span :class="{ 'italic opacity-60': layer.error }">{{
+            layer.title
+          }}</span>
+        </UTooltip>
         <UBadge
           v-if="layer.error"
           variant="outline"

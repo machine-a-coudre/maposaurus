@@ -12,8 +12,8 @@ export function mutateLayerMaplibre(map: Map, layer: MTLayerDefinition) {
 export function addLayerMaplibre(map: Map, layer: MTLayerDefinition) {
   if (layer.type === 'WFS') {
     addWFSLayer(map, layer)
-  } else if (layer.type === 'WMS') {
-    addWMSLayer(map, layer)
+  } else if (layer.type === 'WMS' || layer.type === 'WMTS') {
+    addWMXSLayer(map, layer)
   } else {
     throw new Error('[Error] Maplibre.util:: Unknown layer type.')
   }
@@ -46,7 +46,7 @@ async function addWFSLayer(map: Map, layer: MTLayerDefinition) {
   })
 }
 
-async function addWMSLayer(map: Map, layer: MTLayerDefinition) {
+async function addWMXSLayer(map: Map, layer: MTLayerDefinition) {
   map.addSource(layer.name, {
     type: 'raster',
     tiles: [

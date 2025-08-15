@@ -5,7 +5,7 @@ import {
   type MTServiceProtocol,
   type MTServiceVersion,
 } from '@/helpers/mapServices.utils'
-import { useAppStore, type LayerDefinition } from '@/stores/app'
+import { useAppStore } from '@/stores/app'
 import { useNotify } from '@/composables/notify'
 
 const { notifyError } = useNotify()
@@ -17,7 +17,7 @@ const servicesLayers = ref<{ name: string; title: string; abstract: string }[]>(
 )
 const serviceCapabilities = shallowRef(undefined)
 const serviceProtocol = ref<MTServiceProtocol>('WFS')
-const serviceVersion = ref<MTServiceVersion>('2.2.0')
+const serviceVersion = ref<MTServiceVersion>('1.3.0')
 
 async function onClickGetServiceLayers(url: string) {
   servicesLayers.value = []
@@ -36,17 +36,9 @@ async function onClickGetServiceLayers(url: string) {
 }
 
 function onClickLayerItem(layer: Record<string, string>) {
-  const { name } = layer
-  const url = `${serviceUrl.value}?service=WFS&request=GetFeature&version=2.0.0&srsName=EPSG%3A4326&typeNames=${encodeURIComponent(name)}&outputFormat=${encodeURIComponent('application/json; subtype=geojson; charset=utf-8')}`
-  const visibility = true
-  const type = serviceProtocol.value
-
-  // TODO: move layer creation
-  appStore.addLayerToCollection(<LayerDefinition>{
+  appStore.addLayerToCollection({
     ...layer,
-    url,
-    type,
-    visibility,
+    type: serviceProtocol.value,
     serviceUrl: serviceUrl.value,
     serviceVersion: serviceVersion.value,
   })

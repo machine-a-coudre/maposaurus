@@ -8,7 +8,6 @@ import type {
 export type MTLayerDefinition = {
   name: string
   abstract: string
-  url: string
   title: string
   visibility: boolean
   error: boolean
@@ -34,9 +33,14 @@ export const useAppStore = defineStore('app', () => {
    * Add the layer definition to the app layer collection
    * @param layer The layer definition to be added to the collection
    */
-  function addLayerToCollection(layer: MTLayerDefinition) {
+  function addLayerToCollection(layer: Partial<MTLayerDefinition>) {
+    layer.visibility = true
+
     if (!mapLayersCollection.value.some((l) => l.name === layer.name)) {
-      mapLayersCollection.value = [...mapLayersCollection.value, layer]
+      mapLayersCollection.value = [
+        ...mapLayersCollection.value,
+        <MTLayerDefinition>layer,
+      ]
     }
   }
 

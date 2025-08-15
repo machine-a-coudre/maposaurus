@@ -20,7 +20,8 @@ export function addLayerMaplibre(map: Map, layer: MTLayerDefinition) {
 }
 
 async function addWFSLayer(map: Map, layer: MTLayerDefinition) {
-  const req = await fetch(layer.url)
+  const url = getUrlWfs(layer)
+  const req = await fetch(url)
 
   if (!req.ok) {
     throw new Error(`[Error] Maplibre.util:: ${req.status} ${req.statusText}`)
@@ -47,11 +48,11 @@ async function addWFSLayer(map: Map, layer: MTLayerDefinition) {
 }
 
 async function addWMXSLayer(map: Map, layer: MTLayerDefinition) {
+  const tilesUrl = getUrlTiles(layer)
+
   map.addSource(layer.name, {
     type: 'raster',
-    tiles: [
-      'https://img.nj.gov/imagerywms/Natural2015?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=Natural2015',
-    ],
+    tiles: [tilesUrl],
     tileSize: 256,
   })
 
@@ -61,4 +62,18 @@ async function addWMXSLayer(map: Map, layer: MTLayerDefinition) {
     source: layer.name,
     paint: {},
   })
+}
+
+function getUrlWfs(layer: MTLayerDefinition) {
+  return `${layer.serviceUrl}?service=WFS&request=GetFeature&version=2.0.0&srsName=EPSG%3A4326&typeNames=${encodeURIComponent(layer.name)}&outputFormat=${encodeURIComponent('application/json; subtype=geojson; charset=utf-8')}`
+}
+
+function getUrlTiles(layer: MTLayerDefinition) {
+  const format = `format=image/png`
+  const transparent = `transparent=true`
+  const width = `width=256`
+  const height = `height=256`
+  const crs = `${layer.serviceVersion === '1.3.0' || layer.serviceVersion === '2.2.0' ? 'crs' : 'srs'}=EPSG:3857` // NB. srs for older versions than 1.3.0
+
+  return `${layer.serviceUrl}?request=GetMap&service=${layer.type}&version=${layer.serviceVersion}&layers=${layer.name}&${crs}&${format}&${transparent}&${width}&${height}&bbox={bbox-epsg-3857}&styles=`
 }

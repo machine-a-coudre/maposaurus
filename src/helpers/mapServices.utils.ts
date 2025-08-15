@@ -35,6 +35,8 @@ export async function getCapabilities(
           ? endpoint.getFlattenedLayers()
           : endpoint.getLayers()
 
+    layers.sort((a, b) => a.title.localeCompare(b.title))
+
     return {
       title,
       abstract,

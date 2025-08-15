@@ -154,7 +154,12 @@ function onClickLayerItem(layer: Record<string, string>) {
             class="flex"
           >
             <Step2FromServiceLayersItem
-              :layer="layer"
+              :layer="{
+                ...layer,
+                serviceVersion,
+                serviceUrl,
+                type: serviceProtocol,
+              }"
               @select="onClickLayerItem(layer)"
             />
           </li>

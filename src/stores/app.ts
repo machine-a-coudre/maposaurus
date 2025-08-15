@@ -45,7 +45,12 @@ export const useAppStore = defineStore('app', () => {
   }
 
   function isLayerInCollection(layer: MTLayerDefinition) {
-    return mapLayersCollection.value.some((l) => l.name === layer.name)
+    return mapLayersCollection.value.some(
+      (l) =>
+        l.name === layer.name &&
+        l.serviceVersion === layer.serviceVersion &&
+        l.type === layer.type,
+    )
   }
 
   function removeLayerFromCollection(layerName: string) {

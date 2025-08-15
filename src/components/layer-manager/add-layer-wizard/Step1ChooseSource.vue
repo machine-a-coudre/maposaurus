@@ -26,7 +26,7 @@ const step = ref(1)
         @click="step = 2"
       >
         <UIcon name="i-lucide-server-cog" class="size-15" />
-        <span>Service (WFS, WMS, WMTS, ...)</span>
+        <span>Service</span><span>(WFS, WMS, WMTS, ...)</span>
       </UButton>
 
       <UButton

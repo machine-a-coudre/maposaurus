@@ -1,5 +1,9 @@
 import { ref, shallowRef } from 'vue'
 import { defineStore } from 'pinia'
+import type {
+  MTServiceProtocol,
+  MTServiceVersion,
+} from '@/helpers/mapServices.utils'
 
 export type MTLayerDefinition = {
   name: string
@@ -8,6 +12,9 @@ export type MTLayerDefinition = {
   title: string
   visibility: boolean
   error: boolean
+  type: MTServiceProtocol
+  serviceUrl: string
+  serviceVersion: MTServiceVersion
 }
 
 export const useAppStore = defineStore('app', () => {

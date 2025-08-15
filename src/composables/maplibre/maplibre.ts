@@ -5,6 +5,7 @@ import maplibregl from 'maplibre-gl'
 import positronStyle from '@/assets/styles/positron-gl-style.json'
 import { useAppStore, type MTLayerDefinition } from '@/stores/app'
 import { addLayerMaplibre, mutateLayerMaplibre } from './maplibre.util'
+import { useNotify } from '../notify'
 
 const PREDEFINED_STYLES = {
   voyager: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
@@ -13,7 +14,7 @@ const PREDEFINED_STYLES = {
 } as const
 
 export function useMapLibre(containerId = 'map', type = 'map') {
-  const toast = useToast()
+  const { notifyError, notifySuccess } = useNotify()
   const mapRef = shallowRef<maplibregl.Map | undefined>(undefined)
   const appStore = useAppStore()
   const { baseMapKey, mapMode, mapReady, mapLayersCollection } =
@@ -94,30 +95,19 @@ export function useMapLibre(containerId = 'map', type = 'map') {
       for (let i = 0; i < addedLayers.length; i++) {
         const layer = addedLayers[i]
         try {
-          const data = await fetch(layer.url)
-          const geosource = await data.json()
+          addLayerMaplibre(map, layer)
 
-          addLayerMaplibre(map, layer, geosource)
-
-          // TODO: toast not working
-          toast.add({
-            color: 'success',
+          notifySuccess({
             title: `The layer "${layer.title}" has been successfully added to the map.`,
-            icon: 'lucide-circle-check-big',
-            progress: false,
           })
         } catch (e) {
-          console.error(e)
           appStore.setLayerInError(layer.name)
-          toast.add({
-            color: 'error',
+
+          notifyError({
             title: `Error for "${layer.title}"`,
             description: `Unable to add layer "[${layer.name}] ${layer.title}" to the map, please check service paramaters or API response.`,
-            icon: 'lucide-circle-x',
-            progress: false,
           })
-          // ...
-        } // TODO: check diff and do not try do add already added
+        }
       }
     },
     { immediate: true },

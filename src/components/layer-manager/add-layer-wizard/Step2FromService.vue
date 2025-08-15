@@ -6,8 +6,9 @@ import {
   type MTServiceVersion,
 } from '@/helpers/mapServices.utils'
 import { useAppStore, type LayerDefinition } from '@/stores/app'
+import { useNotify } from '@/composables/notify'
 
-const toast = useToast()
+const { notifyError } = useNotify()
 const appStore = useAppStore()
 
 const serviceUrl = ref('https://mapsref.brgm.fr/wxs/georisques/risques') // eg. https://mapsref.brgm.fr/wxs/georisques/risques?SERVICE=WFS&REQUEST=GetCapabilities
@@ -27,12 +28,9 @@ async function onClickGetServiceLayers(url: string) {
       serviceVersion.value,
     )
   } catch (e) {
-    toast.add({
-      color: 'error',
+    notifyError({
       title: `Unable to contact service`,
       description: (<Error>e).message,
-      icon: 'lucide-circle-x',
-      progress: false,
     })
   }
 }
@@ -41,9 +39,17 @@ function onClickLayerItem(layer: Record<string, string>) {
   const { name } = layer
   const url = `${serviceUrl.value}?service=WFS&request=GetFeature&version=2.0.0&srsName=EPSG%3A4326&typeNames=${encodeURIComponent(name)}&outputFormat=${encodeURIComponent('application/json; subtype=geojson; charset=utf-8')}`
   const visibility = true
+  const type = serviceProtocol.value
 
   // TODO: move layer creation
-  appStore.addLayerToCollection(<LayerDefinition>{ ...layer, url, visibility })
+  appStore.addLayerToCollection(<LayerDefinition>{
+    ...layer,
+    url,
+    type,
+    visibility,
+    serviceUrl: serviceUrl.value,
+    serviceVersion: serviceVersion.value,
+  })
 }
 </script>
 
@@ -139,7 +145,7 @@ function onClickLayerItem(layer: Record<string, string>) {
           {{ serviceCapabilities?.abstract }}
         </p>
         <p class="text-sm">{{ serviceUrl }}</p>
-        <p class="text-sm">WFS 2.0.0</p>
+        <p class="text-sm">{{ serviceProtocol }} {{ serviceVersion }}</p>
 
         <UInput
           class="my-4 w-full"

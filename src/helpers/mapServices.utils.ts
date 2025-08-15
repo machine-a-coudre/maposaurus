@@ -31,7 +31,9 @@ export async function getCapabilities(
     const layers =
       endpoint instanceof WfsEndpoint
         ? (<WfsEndpoint>endpoint).getFeatureTypes()
-        : endpoint.getLayers()
+        : endpoint instanceof WmsEndpoint
+          ? endpoint.getFlattenedLayers()
+          : endpoint.getLayers()
 
     return {
       title,

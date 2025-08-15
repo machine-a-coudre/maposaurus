@@ -35,8 +35,7 @@ function onClickToggleLayerVisibility() {
       <UButton
         :color="layer.error ? 'neutral' : 'primary'"
         variant="ghost"
-        icon="i-lucide-grip"
-        :title="$t('map.menu.layers.item.styling.tooltip')"
+        :icon="layer.type === 'WFS' ? 'i-lucide-grip' : 'i-lucide-image'"
         :disabled="true"
       />
       <p class="overflow-hidden text-ellipsis truncate">

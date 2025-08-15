@@ -4,7 +4,11 @@ import maplibregl from 'maplibre-gl'
 
 import positronStyle from '@/assets/styles/positron-gl-style.json'
 import { useAppStore, type MTLayerDefinition } from '@/stores/app'
-import { addLayerMaplibre, mutateLayerMaplibre } from './maplibre.util'
+import {
+  addLayerMaplibre,
+  mutateLayerMaplibre,
+  removeLayerMapLibre,
+} from './maplibre.util'
 import { useNotify } from '../notify'
 
 const PREDEFINED_STYLES = {
@@ -81,14 +85,10 @@ export function useMapLibre(containerId = 'map', type = 'map') {
       )
       const mutatedLayers = collection.filter((l) => {
         const ll = oldCollection.find((ll) => ll.name === l.name)
-        // return ll && JSON.stringify(ll) !== JSON.stringify(l) // TODO:
         return ll && ll?.visibility !== l.visibility
       })
 
-      removedLayers.forEach((l) => {
-        map.getLayer(l.name) && map.removeLayer(l.name)
-        map.getSource(l.name) && map.removeSource(l.name)
-      })
+      removedLayers.forEach((l) => removeLayerMapLibre(map, l))
 
       mutatedLayers.forEach((l) => mutateLayerMaplibre(map, l))
 

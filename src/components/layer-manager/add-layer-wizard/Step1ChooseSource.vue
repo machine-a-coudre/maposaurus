@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import Step2FromService from './Step2FromService.vue'
 
 const step = ref(1)
 </script>
@@ -33,7 +32,7 @@ const step = ref(1)
         class="flex flex-col hover:cursor-pointer"
         color="neutral"
         variant="ghost"
-        :disabled="true"
+        @click="step = 3"
       >
         <UIcon name="i-lucide-file-down" class="size-15" />
         <span>un fichier</span>
@@ -43,5 +42,9 @@ const step = ref(1)
 
   <template v-if="step === 2">
     <Step2FromService @back="step = 1" />
+  </template>
+
+  <template v-if="step === 3">
+    <Step3FromFile @back="step = 1" />
   </template>
 </template>

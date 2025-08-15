@@ -1,22 +1,84 @@
 import type { Map } from 'maplibre-gl'
 import type { MTLayerDefinition } from '@/stores/app'
 
+export function removeLayerMapLibre(map: Map, layer: MTLayerDefinition) {
+  ;['', '-circle', '-line', '-fill'].forEach(
+    (postfix) =>
+      map.getLayer(`${layer.name}${postfix}`) &&
+      map.removeLayer(`${layer.name}${postfix}`),
+  )
+
+  map.getSource(layer.name) && map.removeSource(layer.name)
+}
+
 export function mutateLayerMaplibre(map: Map, layer: MTLayerDefinition) {
-  map.setLayoutProperty(
-    layer.name,
-    'visibility',
-    layer.visibility ? 'visible' : 'none',
+  ;['', '-circle', '-line', '-fill'].forEach(
+    (postfix) =>
+      map.getLayer(`${layer.name}${postfix}`) &&
+      map.setLayoutProperty(
+        `${layer.name}${postfix}`,
+        'visibility',
+        layer.visibility ? 'visible' : 'none',
+      ),
   )
 }
 
 export function addLayerMaplibre(map: Map, layer: MTLayerDefinition) {
-  if (layer.type === 'WFS') {
+  if (layer.type === 'geojson') {
+    addGeojsonLayer(map, layer, layer.data)
+  } else if (layer.type === 'WFS') {
     addWFSLayer(map, layer)
   } else if (layer.type === 'WMS' || layer.type === 'WMTS') {
     addWMXSLayer(map, layer)
   } else {
     throw new Error('[Error] Maplibre.util:: Unknown layer type.')
   }
+}
+
+async function addGeojsonLayer(
+  map: Map,
+  layer: MTLayerDefinition,
+  data: unknown,
+) {
+  map.addSource(layer.name, {
+    type: 'geojson',
+    data,
+  })
+
+  map.addLayer({
+    id: `${layer.name}-circle`,
+    type: 'circle',
+    source: layer.name,
+    paint: {
+      'circle-radius': 6,
+      'circle-color': '#ffc83c',
+      'circle-stroke-width': 1,
+      'circle-stroke-color': '#0f172b',
+    },
+    filter: ['==', '$type', 'Point'],
+  })
+
+  map.addLayer({
+    id: `${layer.name}-line`,
+    type: 'line',
+    source: layer.name,
+    paint: {
+      'line-color': '#3F51B5',
+      'line-width': 3,
+    },
+    filter: ['==', '$type', 'LineString'],
+  })
+
+  map.addLayer({
+    id: `${layer.name}-fill`,
+    type: 'fill',
+    source: layer.name,
+    paint: {
+      'fill-color': '#ffc83c',
+      'fill-opacity': 0.5,
+    },
+    filter: ['==', '$type', 'Polygon'],
+  })
 }
 
 async function addWFSLayer(map: Map, layer: MTLayerDefinition) {
@@ -29,22 +91,7 @@ async function addWFSLayer(map: Map, layer: MTLayerDefinition) {
 
   const data = await req.json()
 
-  map.addSource(layer.name, {
-    type: 'geojson',
-    data,
-  })
-
-  map.addLayer({
-    id: `${layer.name}`,
-    type: 'circle',
-    source: layer.name,
-    paint: {
-      'circle-radius': 6,
-      'circle-color': '#ffc83c',
-      'circle-stroke-width': 2,
-      'circle-stroke-color': '#0f172b',
-    },
-  })
+  addGeojsonLayer(map, layer, data)
 }
 
 async function addWMXSLayer(map: Map, layer: MTLayerDefinition) {

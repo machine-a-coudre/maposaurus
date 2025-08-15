@@ -39,7 +39,11 @@ function onClickLayerInfo() {
       <UButton
         :color="layer.error ? 'neutral' : 'primary'"
         variant="ghost"
-        :icon="layer.type === 'WFS' ? 'i-lucide-grip' : 'i-lucide-image'"
+        :icon="
+          layer.type === 'WFS' || layer.type === 'geojson'
+            ? 'i-lucide-grip'
+            : 'i-lucide-image'
+        "
         :disabled="true"
       />
       <p class="overflow-hidden text-ellipsis truncate">

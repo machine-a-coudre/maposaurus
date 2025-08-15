@@ -8,12 +8,14 @@ import type {
 export type MTLayerDefinition = {
   name: string
   abstract: string
+  data?: unknown
   title: string
   visibility: boolean
   error: boolean
-  type: MTServiceProtocol
-  serviceUrl: string
-  serviceVersion: MTServiceVersion
+  type: MTServiceProtocol | 'geojson'
+  serviceUrl?: string
+  serviceVersion?: MTServiceVersion
+  origin?: 'file' | 'wizard'
 }
 
 export const useAppStore = defineStore('app', () => {

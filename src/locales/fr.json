@@ -25,5 +25,8 @@
 
   "map.menu.3d.tooltip": "Activer ou désactiver le mode 3D",
 
-  "map.menu.basepopover.close.button.tooltip": "Fermer le menu"
+  "map.menu.basepopover.close.button.tooltip": "Fermer le menu",
+
+  "layers.layer.info.title": "Informations de la couche",
+  "layers.layer.info.modal.dismiss": "Ok"
 }

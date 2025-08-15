@@ -17,6 +17,10 @@ function onClickDelete() {
 function onClickToggleLayerVisibility() {
   appStore.toggleLayerVisibility(props.layer.name)
 }
+
+function onClickLayerInfo() {
+  appStore.toggleLayerInfo(props.layer)
+}
 </script>
 
 <template>
@@ -64,6 +68,15 @@ function onClickToggleLayerVisibility() {
         icon="i-lucide-paintbrush"
         :title="$t('map.menu.layers.item.styling.tooltip')"
         :disabled="true"
+      />
+      <UButton
+        class="hover:cursor-pointer"
+        color="neutral"
+        variant="ghost"
+        @click.stop.prevent="onClickLayerInfo"
+        :disabled="layer.error"
+        icon="i-lucide-info"
+        :title="$t('map.menu.layers.item.info.tooltip')"
       />
       <UButton
         class="hover:cursor-pointer"

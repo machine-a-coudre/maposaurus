@@ -1,3 +1,17 @@
+<script setup lang="ts">
+import { watch } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useAppStore } from '@/stores/app'
+import LayerInfo from './LayerInfo.vue'
+
+const appStore = useAppStore()
+const { showLayerInfo } = storeToRefs(appStore)
+const overlay = useOverlay()
+const modal = overlay.create(LayerInfo)
+
+watch(showLayerInfo, (layer) => layer && modal.open({ layer }))
+</script>
+
 <template>
   <UInput
     class="w-full"
@@ -8,10 +22,6 @@
   />
 
   <div class="mt-8 max-h-dvh overflow-y-auto">
-    <!-- <h4 class="text-sm opacity-75 uppercase">
-      {{ $t('map.menu.layers.list.title') }}
-    </h4> -->
-
     <LayerList />
 
     <UModal
@@ -35,4 +45,6 @@
       </template>
     </UModal>
   </div>
+
+  <LayerInfo />
 </template>

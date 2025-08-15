@@ -25,5 +25,8 @@
 
   "map.menu.3d.tooltip": "Toggle 3D view mode",
 
-  "map.menu.basepopover.close.button.tooltip": "Close the popover"
+  "map.menu.basepopover.close.button.tooltip": "Close the popover",
+
+  "layers.layer.info.modal.title": "Layer informations",
+  "layers.layer.info.modal.dismiss": "Ok"
 }

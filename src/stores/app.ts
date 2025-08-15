@@ -21,6 +21,7 @@ export const useAppStore = defineStore('app', () => {
   const mapMode = ref<string>('map') // TODO: create a sore for the map
   const mapReady = ref(false) // TODO: create a sore for the map
   const mapLayersCollection = shallowRef<MTLayerDefinition[]>([]) // TODO: create a sore for the map
+  const showLayerInfo = shallowRef<MTLayerDefinition | undefined>(undefined)
 
   /**
    * Switch projection mode from map to globe
@@ -65,6 +66,10 @@ export const useAppStore = defineStore('app', () => {
     )
   }
 
+  function toggleLayerInfo(layer: MTLayerDefinition | undefined) {
+    showLayerInfo.value = layer
+  }
+
   function setLayerInError(layerName: string) {
     mapLayersCollection.value = mapLayersCollection.value.map((l) =>
       l.name === layerName ? { ...l, error: true } : l,
@@ -76,11 +81,13 @@ export const useAppStore = defineStore('app', () => {
     mapMode,
     mapReady,
     mapLayersCollection,
+    showLayerInfo,
     addLayerToCollection,
     isLayerInCollection,
     removeLayerFromCollection,
     toggleMapMode,
     toggleLayerVisibility,
+    toggleLayerInfo,
     setLayerInError,
   }
 })

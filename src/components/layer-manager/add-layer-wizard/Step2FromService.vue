@@ -4,10 +4,12 @@ import {
   getCapabilities,
   type MTServiceProtocol,
   type MTServiceVersion,
-} from '@/helpers/services.utils'
+} from '@/helpers/mapServices.utils'
 import { useAppStore, type LayerDefinition } from '@/stores/app'
 
+const toast = useToast()
 const appStore = useAppStore()
+
 const serviceUrl = ref('https://mapsref.brgm.fr/wxs/georisques/risques') // eg. https://mapsref.brgm.fr/wxs/georisques/risques?SERVICE=WFS&REQUEST=GetCapabilities
 const servicesLayers = ref<{ name: string; title: string; abstract: string }[]>(
   [],
@@ -18,11 +20,21 @@ const serviceVersion = ref<MTServiceVersion>('2.2.0')
 
 async function onClickGetServiceLayers(url: string) {
   servicesLayers.value = []
-  serviceCapabilities.value = await getCapabilities(
-    url,
-    serviceProtocol.value,
-    serviceVersion.value,
-  )
+  try {
+    serviceCapabilities.value = await getCapabilities(
+      url,
+      serviceProtocol.value,
+      serviceVersion.value,
+    )
+  } catch (e) {
+    toast.add({
+      color: 'error',
+      title: `Unable to contact service`,
+      description: (<Error>e).message,
+      icon: 'lucide-circle-x',
+      progress: false,
+    })
+  }
 }
 
 function onClickLayerItem(layer: Record<string, string>) {

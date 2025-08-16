@@ -9,7 +9,7 @@ const { mapLayersCollection } = storeToRefs(appStore)
 <template>
   <LayerListItem
     class="flex items-center gap-2 px-0 py-1"
-    v-for="layer in mapLayersCollection"
+    v-for="layer in mapLayersCollection.toReversed()"
     :key="layer.name"
     :layer="layer"
   />

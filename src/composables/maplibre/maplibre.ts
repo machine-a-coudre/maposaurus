@@ -8,7 +8,7 @@ import {
   addLayerMaplibre,
   mutateLayerMaplibre,
   removeLayerMapLibre,
-} from './maplibre.util'
+} from '../../helpers/maplibre.helper'
 import { useNotify } from '../notify'
 
 const PREDEFINED_STYLES = {

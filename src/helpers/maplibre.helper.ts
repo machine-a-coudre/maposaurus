@@ -1,5 +1,5 @@
 import type { Map } from 'maplibre-gl'
-import type { MTLayerDefinition } from '@/stores/app'
+import { MTLayerTypeEnum, type MTLayerDefinition } from '@/stores/app'
 
 export function removeLayerMapLibre(map: Map, layer: MTLayerDefinition) {
   ;['', '-circle', '-line', '-fill'].forEach(
@@ -33,11 +33,17 @@ export function mutateLayerMaplibre(map: Map, layer: MTLayerDefinition) {
 }
 
 export function addLayerToMap(map: Map, layer: MTLayerDefinition) {
-  if (layer.type === 'geojson') {
+  if (
+    layer.type === MTLayerTypeEnum.GeoJSON ||
+    layer.type === MTLayerTypeEnum.GPX
+  ) {
     addGeojsonLayerToMap(map, layer, layer.data)
-  } else if (layer.type === 'WFS') {
+  } else if (layer.type === MTLayerTypeEnum.WFS) {
     addWFSLayerToMap(map, layer)
-  } else if (layer.type === 'WMS' || layer.type === 'WMTS') {
+  } else if (
+    layer.type === MTLayerTypeEnum.WMS ||
+    layer.type === MTLayerTypeEnum.WMTS
+  ) {
     addWMXSLayerToMap(map, layer)
   } else {
     throw new Error('[Error] Maplibre.util:: Unknown layer type.')

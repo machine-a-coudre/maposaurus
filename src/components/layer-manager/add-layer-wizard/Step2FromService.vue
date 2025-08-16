@@ -5,7 +5,7 @@ import {
   type MTServiceProtocol,
   type MTServiceVersion,
 } from '@/helpers/mapServices.helper'
-import { useAppStore } from '@/stores/app'
+import { useAppStore, type MTLayerType } from '@/stores/app'
 import { useNotify } from '@/composables/notify'
 
 const { notifyError } = useNotify()
@@ -38,7 +38,7 @@ async function onClickGetServiceLayers(url: string) {
 function onClickLayerItem(layer: Record<string, string>) {
   appStore.addLayerToCollection({
     ...layer,
-    type: serviceProtocol.value,
+    type: <MTLayerType>serviceProtocol.value.toLowerCase(),
     serviceUrl: serviceUrl.value,
     serviceVersion: serviceVersion.value,
   })

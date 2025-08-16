@@ -26,7 +26,7 @@ function handleClose() {
       <div>{{ layer?.serviceUrl }}</div>
       <div>{{ layer?.serviceVersion }}</div>
       <div>{{ layer?.type }}</div>
-      <div v-if="layer.origin === 'file'">from file</div>
+      <div>{{ layer?.origin }}</div>
     </template>
     <template #footer>
       <div class="flex gap-2">

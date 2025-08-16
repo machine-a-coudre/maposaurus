@@ -5,6 +5,18 @@ import type {
   MTServiceVersion,
 } from '@/helpers/mapServices.helper'
 
+export enum MTLayerTypeEnum {
+  WMS = 'wms',
+  WMTS = 'wmts',
+  WFS = 'wfs',
+  TMS = 'tms',
+  XYZ = 'xyz',
+  GeoJSON = 'geojson',
+  GPX = 'gpx',
+}
+
+export type MTLayerType = MTLayerTypeEnum | MTServiceProtocol
+
 export type MTLayerDefinition = {
   name: string
   abstract: string
@@ -12,10 +24,10 @@ export type MTLayerDefinition = {
   title: string
   visibility: boolean
   error: boolean
-  type: MTServiceProtocol | 'geojson'
+  type: MTServiceProtocol | MTLayerType
   serviceUrl?: string
   serviceVersion?: MTServiceVersion
-  origin?: 'file' | 'wizard'
+  origin?: string
   color: string
 }
 

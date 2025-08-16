@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { useAppStore, type MTLayerDefinition } from '@/stores/app'
+import {
+  MTLayerTypeEnum,
+  useAppStore,
+  type MTLayerDefinition,
+} from '@/stores/app'
 
 const props = defineProps<{
   layer: MTLayerDefinition
@@ -13,7 +17,15 @@ watch(color, (c) => appStore.mutateLayerColor(props.layer.name, c))
 
 <template>
   <!-- If layer has feature, it can be customized -->
-  <template v-if="layer.type === 'WFS' || layer.type === 'geojson'">
+  <template
+    v-if="
+      [
+        MTLayerTypeEnum.WFS,
+        MTLayerTypeEnum.GeoJSON,
+        MTLayerTypeEnum.GPX,
+      ].includes(layer.type)
+    "
+  >
     <UPopover>
       <UButton
         variant="ghost"

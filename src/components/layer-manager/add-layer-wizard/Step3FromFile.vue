@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import { ref, shallowRef } from 'vue'
+import { ref, watch } from 'vue'
 import type { TabsItem } from '@nuxt/ui'
-import { useAppStore } from '@/stores/app'
+import { MTLayerTypeEnum, useAppStore } from '@/stores/app'
+import { getFileContentAsGeoJson } from '@/helpers/fileReader.helper'
 
 const appStore = useAppStore()
-const value = ref<File[]>([])
+const activeTab = ref('0')
+const file = ref<File>()
 const layerName = ref('')
 const layerAbstract = ref('')
 const layerData = ref('')
 const items = [
   {
     label: 'Upload a file',
-    slot: 'account' as const,
+    slot: 'upload' as const,
   },
   {
     label: 'Paste content',
@@ -19,16 +21,37 @@ const items = [
   },
 ] satisfies TabsItem[]
 
-function onValidate() {
+async function onValidate() {
+  let data: string = ''
+  let type = MTLayerTypeEnum.GeoJSON
+  let origin = 'input'
+
+  if (activeTab.value === '0' && file.value) {
+    type = file.value.type.includes('gpx') ? MTLayerTypeEnum.GPX : type
+    origin = file.value.name
+
+    data = await getFileContentAsGeoJson(file.value)
+  }
+
+  if (activeTab.value === '1' && layerData.value) {
+    data = JSON.parse(layerData.value)
+  }
+
   appStore.addLayerToCollection({
     name: layerName.value,
     abstract: layerAbstract.value,
     title: layerName.value,
-    type: 'geojson',
-    data: JSON.parse(layerData.value),
-    origin: 'file',
+    type,
+    data,
+    origin,
   })
 }
+
+watch(file, async (f) => {
+  if (!f) return
+
+  layerName.value = f.name.split('.').shift()
+})
 </script>
 
 <template>
@@ -45,13 +68,14 @@ function onValidate() {
 
     <UTabs
       color="neutral"
+      v-model="activeTab"
       :items="items"
       :ui="{ trigger: 'grow' }"
       class="gap-4 w-full mb-4"
     >
-      <template #account="{ item }">
+      <template #upload="{ item }">
         <UFileUpload
-          v-model="value"
+          v-model="file"
           icon="i-lucide-file"
           label="Drop your file here"
           description="GeoJSON, JSON, GPX (max. 2MB)"
@@ -60,6 +84,7 @@ function onValidate() {
           highlight
           :interactive="false"
           class="min-h-48"
+          accept=".json,.geojson,.txt,.gpx"
         >
           <template #actions="{ open }">
             <UButton

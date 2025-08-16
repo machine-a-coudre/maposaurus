@@ -2,7 +2,7 @@
 import { computed, onMounted, ref, shallowRef } from 'vue'
 import type { TabsItem } from '@nuxt/ui'
 
-import { loadThemes, type Mtheme } from '@/helpers/themes.utils'
+import { loadThemes, type Mtheme } from '@/helpers/themes.helper'
 
 const themes = shallowRef<Mtheme[]>([])
 const tabs = ref<TabsItem[]>([])

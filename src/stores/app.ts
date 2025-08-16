@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import type {
   MTServiceProtocol,
   MTServiceVersion,
-} from '@/helpers/mapServices.utils'
+} from '@/helpers/mapServices.helper'
 
 export type MTLayerDefinition = {
   name: string

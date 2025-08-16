@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Mtheme } from '@/helpers/themes.utils'
+import type { Mtheme } from '@/helpers/themes.helper'
 
 defineProps<{
   theme: Mtheme

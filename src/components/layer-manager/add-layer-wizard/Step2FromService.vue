@@ -4,7 +4,7 @@ import {
   getCapabilities,
   type MTServiceProtocol,
   type MTServiceVersion,
-} from '@/helpers/mapServices.utils'
+} from '@/helpers/mapServices.helper'
 import { useAppStore } from '@/stores/app'
 import { useNotify } from '@/composables/notify'
 

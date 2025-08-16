@@ -32,19 +32,19 @@ export function mutateLayerMaplibre(map: Map, layer: MTLayerDefinition) {
     map.setPaintProperty(`${layer.name}-fill`, 'fill-color', layer.color)
 }
 
-export function addLayerMaplibre(map: Map, layer: MTLayerDefinition) {
+export function addLayerToMap(map: Map, layer: MTLayerDefinition) {
   if (layer.type === 'geojson') {
-    addGeojsonLayer(map, layer, layer.data)
+    addGeojsonLayerToMap(map, layer, layer.data)
   } else if (layer.type === 'WFS') {
-    addWFSLayer(map, layer)
+    addWFSLayerToMap(map, layer)
   } else if (layer.type === 'WMS' || layer.type === 'WMTS') {
-    addWMXSLayer(map, layer)
+    addWMXSLayerToMap(map, layer)
   } else {
     throw new Error('[Error] Maplibre.util:: Unknown layer type.')
   }
 }
 
-async function addGeojsonLayer(
+async function addGeojsonLayerToMap(
   map: Map,
   layer: MTLayerDefinition,
   data: unknown,
@@ -90,7 +90,7 @@ async function addGeojsonLayer(
   })
 }
 
-async function addWFSLayer(map: Map, layer: MTLayerDefinition) {
+async function addWFSLayerToMap(map: Map, layer: MTLayerDefinition) {
   const url = getUrlWfs(layer)
   const req = await fetch(url)
 
@@ -100,10 +100,10 @@ async function addWFSLayer(map: Map, layer: MTLayerDefinition) {
 
   const data = await req.json()
 
-  addGeojsonLayer(map, layer, data)
+  addGeojsonLayerToMap(map, layer, data)
 }
 
-async function addWMXSLayer(map: Map, layer: MTLayerDefinition) {
+async function addWMXSLayerToMap(map: Map, layer: MTLayerDefinition) {
   const tilesUrl = getUrlTiles(layer)
 
   map.addSource(layer.name, {

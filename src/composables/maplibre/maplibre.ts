@@ -5,7 +5,7 @@ import maplibregl from 'maplibre-gl'
 import positronStyle from '@/assets/styles/positron-gl-style.json'
 import { useAppStore, type MTLayerDefinition } from '@/stores/app'
 import {
-  addLayerMaplibre,
+  addLayerToMap,
   mutateLayerMaplibre,
   removeLayerMapLibre,
 } from '../../helpers/maplibre.helper'
@@ -95,7 +95,7 @@ export function useMapLibre(containerId = 'map', type = 'map') {
       for (let i = 0; i < addedLayers.length; i++) {
         const layer = addedLayers[i]
         try {
-          addLayerMaplibre(map, layer)
+          addLayerToMap(map, layer)
 
           notifySuccess({
             title: `The layer "${layer.title}" has been successfully added to the map.`,

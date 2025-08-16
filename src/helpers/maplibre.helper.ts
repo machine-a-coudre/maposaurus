@@ -37,7 +37,7 @@ export function addLayerToMap(map: Map, layer: MTLayerDefinition) {
     layer.type === MTLayerTypeEnum.GeoJSON ||
     layer.type === MTLayerTypeEnum.GPX
   ) {
-    addGeojsonLayerToMap(map, layer, layer.data)
+    addGeojsonLayerToMap(map, layer, <GeoJSON.GeoJSON>layer.data)
   } else if (layer.type === MTLayerTypeEnum.WFS) {
     addWFSLayerToMap(map, layer)
   } else if (
@@ -53,7 +53,7 @@ export function addLayerToMap(map: Map, layer: MTLayerDefinition) {
 async function addGeojsonLayerToMap(
   map: Map,
   layer: MTLayerDefinition,
-  data: unknown,
+  data: GeoJSON.GeoJSON,
 ) {
   map.addSource(layer.name, {
     type: 'geojson',

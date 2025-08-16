@@ -37,6 +37,7 @@ export const useAppStore = defineStore('app', () => {
   const mapReady = ref(false) // TODO: create a sore for the map
   const mapLayersCollection = shallowRef<MTLayerDefinition[]>([]) // TODO: create a sore for the map
   const showLayerInfo = shallowRef<MTLayerDefinition | undefined>(undefined)
+  const focusOnLayer = shallowRef<MTLayerDefinition | undefined>(undefined)
 
   /**
    * Switch projection mode from map to globe
@@ -86,6 +87,10 @@ export const useAppStore = defineStore('app', () => {
     showLayerInfo.value = layer
   }
 
+  function toggleFocusOnLayer(layer: MTLayerDefinition | undefined) {
+    focusOnLayer.value = layer
+  }
+
   function setLayerInError(layerName: string) {
     mapLayersCollection.value = mapLayersCollection.value.map((l) =>
       l.name === layerName ? { ...l, error: true } : l,
@@ -104,12 +109,14 @@ export const useAppStore = defineStore('app', () => {
     mapReady,
     mapLayersCollection,
     showLayerInfo,
+    focusOnLayer,
     addLayerToCollection,
     isLayerInCollection,
     removeLayerFromCollection,
     toggleMapMode,
     toggleLayerVisibility,
     toggleLayerInfo,
+    toggleFocusOnLayer,
     setLayerInError,
     mutateLayerColor,
   }

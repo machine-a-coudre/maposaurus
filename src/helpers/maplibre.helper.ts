@@ -139,3 +139,7 @@ function getUrlTiles(layer: MTLayerDefinition) {
 
   return `${layer.serviceUrl}?request=GetMap&service=${layer.type}&version=${layer.serviceVersion}&layers=${layer.name}&${crs}&${format}&${transparent}&${width}&${height}&bbox={bbox-epsg-3857}&styles=`
 }
+
+export function zoomToFeature(map: Map, layer: MTLayerDefinition) {
+  console.log(layer)
+}

@@ -8,6 +8,7 @@ import {
   addLayerToMap,
   mutateLayerMaplibre,
   removeLayerMapLibre,
+  zoomToFeature,
 } from '../../helpers/maplibre.helper'
 import { useNotify } from '../notify'
 
@@ -21,7 +22,7 @@ export function useMapLibre(containerId = 'map', type = 'map') {
   const { notifyError, notifySuccess } = useNotify()
   const mapRef = shallowRef<maplibregl.Map | undefined>(undefined)
   const appStore = useAppStore()
-  const { baseMapKey, mapMode, mapReady, mapLayersCollection } =
+  const { baseMapKey, mapMode, mapReady, mapLayersCollection, focusOnLayer } =
     storeToRefs(appStore)
 
   watch(mapMode, (m) => {
@@ -112,6 +113,14 @@ export function useMapLibre(containerId = 'map', type = 'map') {
     },
     { immediate: true },
   )
+
+  watch(focusOnLayer, (layer) => {
+    if (!layer || !mapRef.value) return
+
+    zoomToFeature(mapRef.value, layer)
+
+    appStore.toggleFocusOnLayer(undefined)
+  })
 
   onMounted(() => {
     mapRef.value = new maplibregl.Map({

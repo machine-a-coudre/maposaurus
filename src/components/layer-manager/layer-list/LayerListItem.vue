@@ -21,6 +21,10 @@ function onClickToggleLayerVisibility() {
 function onClickLayerInfo() {
   appStore.toggleLayerInfo(props.layer)
 }
+
+function onClickLayerFocus() {
+  appStore.toggleFocusOnLayer(props.layer)
+}
 </script>
 
 <template>
@@ -72,6 +76,14 @@ function onClickLayerInfo() {
         :disabled="layer.error"
         icon="i-lucide-info"
         :title="$t('map.menu.layers.item.info.tooltip')"
+      />
+      <UButton
+        class="hover:cursor-pointer"
+        color="neutral"
+        variant="ghost"
+        @click.stop.prevent="onClickLayerFocus"
+        icon="i-lucide-focus"
+        :title="$t('map.menu.layers.item.focus.tooltip')"
       />
       <UButton
         class="hover:cursor-pointer"

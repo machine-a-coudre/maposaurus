@@ -36,16 +36,7 @@ function onClickLayerInfo() {
         'opacity-30': !layer.visibility,
       }"
     >
-      <UButton
-        :color="layer.error ? 'neutral' : 'primary'"
-        variant="ghost"
-        :icon="
-          layer.type === 'WFS' || layer.type === 'geojson'
-            ? 'i-lucide-grip'
-            : 'i-lucide-image'
-        "
-        :disabled="true"
-      />
+      <LayerListItemIcon :layer="layer" />
       <p class="overflow-hidden text-ellipsis truncate">
         <UTooltip :delay-duration="0" :text="`[${layer.name}] ${layer.title}`">
           <span>{{ layer.title }}</span>

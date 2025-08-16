@@ -16,6 +16,7 @@ export type MTLayerDefinition = {
   serviceUrl?: string
   serviceVersion?: MTServiceVersion
   origin?: 'file' | 'wizard'
+  color: string
 }
 
 export const useAppStore = defineStore('app', () => {
@@ -38,6 +39,7 @@ export const useAppStore = defineStore('app', () => {
    */
   function addLayerToCollection(layer: Partial<MTLayerDefinition>) {
     layer.visibility = true
+    layer.color = '#ffc83c'
 
     if (!mapLayersCollection.value.some((l) => l.name === layer.name)) {
       mapLayersCollection.value = [
@@ -78,6 +80,12 @@ export const useAppStore = defineStore('app', () => {
     )
   }
 
+  function mutateLayerColor(layerName: string, color: string) {
+    mapLayersCollection.value = mapLayersCollection.value.map((l) =>
+      l.name === layerName ? { ...l, color } : l,
+    )
+  }
+
   return {
     baseMapKey,
     mapMode,
@@ -91,5 +99,6 @@ export const useAppStore = defineStore('app', () => {
     toggleLayerVisibility,
     toggleLayerInfo,
     setLayerInError,
+    mutateLayerColor,
   }
 })

@@ -21,6 +21,15 @@ export function mutateLayerMaplibre(map: Map, layer: MTLayerDefinition) {
         layer.visibility ? 'visible' : 'none',
       ),
   )
+
+  map.getLayer(`${layer.name}-circle`) &&
+    map.setPaintProperty(`${layer.name}-circle`, 'circle-color', layer.color)
+
+  map.getLayer(`${layer.name}-line`) &&
+    map.setPaintProperty(`${layer.name}-line`, 'line-color', layer.color)
+
+  map.getLayer(`${layer.name}-fill`) &&
+    map.setPaintProperty(`${layer.name}-fill`, 'fill-color', layer.color)
 }
 
 export function addLayerMaplibre(map: Map, layer: MTLayerDefinition) {
@@ -51,7 +60,7 @@ async function addGeojsonLayer(
     source: layer.name,
     paint: {
       'circle-radius': 6,
-      'circle-color': '#ffc83c',
+      'circle-color': layer.color,
       'circle-stroke-width': 1,
       'circle-stroke-color': '#0f172b',
     },
@@ -63,7 +72,7 @@ async function addGeojsonLayer(
     type: 'line',
     source: layer.name,
     paint: {
-      'line-color': '#3F51B5',
+      'line-color': layer.color,
       'line-width': 3,
     },
     filter: ['==', '$type', 'LineString'],
@@ -74,7 +83,7 @@ async function addGeojsonLayer(
     type: 'fill',
     source: layer.name,
     paint: {
-      'fill-color': '#ffc83c',
+      'fill-color': layer.color,
       'fill-opacity': 0.5,
     },
     filter: ['==', '$type', 'Polygon'],

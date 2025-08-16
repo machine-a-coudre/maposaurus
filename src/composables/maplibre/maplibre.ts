@@ -85,7 +85,7 @@ export function useMapLibre(containerId = 'map', type = 'map') {
       )
       const mutatedLayers = collection.filter((l) => {
         const ll = oldCollection.find((ll) => ll.name === l.name)
-        return ll && ll?.visibility !== l.visibility
+        return (ll && ll?.visibility !== l.visibility) || ll?.color !== l.color
       })
 
       removedLayers.forEach((l) => removeLayerMapLibre(map, l))

@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/stores/app'
+import { searchPatternInLayers } from '@/helpers/search.helper'
 import LayerInfo from './LayerInfo.vue'
 
 const appStore = useAppStore()
@@ -10,13 +11,7 @@ const overlay = useOverlay()
 const modal = overlay.create(LayerInfo)
 const searchPattern = ref('')
 const layers = computed(() =>
-  searchPattern.value
-    ? mapLayersCollection.value.filter(
-        (l) =>
-          l.name.toLowerCase().includes(searchPattern.value.toLowerCase()) ||
-          l.title.toLowerCase().includes(searchPattern.value.toLowerCase()),
-      )
-    : mapLayersCollection.value,
+  searchPatternInLayers(mapLayersCollection.value, searchPattern.value),
 )
 
 watch(showLayerInfo, (layer) => layer && modal.open({ layer }))
@@ -30,7 +25,18 @@ watch(showLayerInfo, (layer) => layer && modal.open({ layer }))
     variant="outline"
     :placeholder="$t('map.menu.layers.search.placeholder')"
     v-model="searchPattern"
-  />
+  >
+    <template v-if="searchPattern?.length" #trailing>
+      <UButton
+        color="neutral"
+        variant="link"
+        size="sm"
+        icon="i-lucide-circle-x"
+        aria-label="Clear input"
+        @click="searchPattern = ''"
+      />
+    </template>
+  </UInput>
 
   <div class="mt-8 max-h-dvh overflow-y-auto">
     <LayerList :layers="layers" />

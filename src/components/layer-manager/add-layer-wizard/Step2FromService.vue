@@ -2,11 +2,17 @@
 import { computed, ref, shallowRef } from 'vue'
 import {
   getCapabilities,
+  type MTServiceCapabilities,
   type MTServiceProtocol,
   type MTServiceVersion,
 } from '@/helpers/mapServices.helper'
-import { useAppStore, type MTLayerType } from '@/stores/app'
+import {
+  useAppStore,
+  type MTLayerDefinition,
+  type MTLayerType,
+} from '@/stores/app'
 import { useNotify } from '@/composables/notify'
+import { searchPatternInLayers } from '@/helpers/search.helper'
 
 const { notifyError } = useNotify()
 const appStore = useAppStore()
@@ -15,23 +21,20 @@ const serviceUrl = ref('https://mapsref.brgm.fr/wxs/georisques/risques') // eg. 
 const servicesLayers = ref<{ name: string; title: string; abstract: string }[]>(
   [],
 )
-const serviceCapabilities = shallowRef(undefined)
+const serviceCapabilities = shallowRef<MTServiceCapabilities | undefined>(
+  undefined,
+)
 const serviceProtocol = ref<MTServiceProtocol>('WFS')
 const serviceVersion = ref<MTServiceVersion>('1.3.0')
 const searchPattern = ref('')
-const layers = computed(() => {
-  if (serviceCapabilities.value?.layers) {
-    return searchPattern.value
-      ? serviceCapabilities.value?.layers.filter(
-          (l) =>
-            l.name.toLowerCase().includes(searchPattern.value.toLowerCase()) ||
-            l.title.toLowerCase().includes(searchPattern.value.toLowerCase()),
-        )
-      : serviceCapabilities.value?.layers
-  }
-
-  return []
-})
+const layers = computed(() =>
+  serviceCapabilities.value?.layers
+    ? searchPatternInLayers(
+        <MTLayerDefinition[]>serviceCapabilities.value.layers,
+        searchPattern.value,
+      )
+    : [],
+)
 
 async function onClickGetServiceLayers(url: string) {
   servicesLayers.value = []
@@ -157,14 +160,25 @@ function onClickLayerItem(layer: Record<string, any>) {
 
         <UInput
           class="my-4 w-full"
-          icon="i-lucide-search"
+          trailing-icon="i-lucide-search"
           size="md"
           variant="outline"
           placeholder="Search..."
           v-model="searchPattern"
-        />
+        >
+          <template v-if="searchPattern?.length" #trailing>
+            <UButton
+              color="neutral"
+              variant="link"
+              size="sm"
+              icon="i-lucide-circle-x"
+              aria-label="Clear input"
+              @click="searchPattern = ''"
+            />
+          </template>
+        </UInput>
 
-        <ul class="flex flex-col gap-1" v-if="serviceCapabilities">
+        <ul class="flex flex-col gap-1" v-if="layers.length">
           <li v-for="layer in layers" :key="layer.name" class="flex">
             <Step2FromServiceLayersItem
               :layer="{
@@ -177,6 +191,7 @@ function onClickLayerItem(layer: Record<string, any>) {
             />
           </li>
         </ul>
+        <div class="italic" v-else>pas de couche</div>
       </template>
     </div>
   </div>

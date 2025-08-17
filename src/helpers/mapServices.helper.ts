@@ -31,9 +31,10 @@ export async function getCapabilities(
     const layers =
       endpoint instanceof WfsEndpoint
         ? (<WfsEndpoint>endpoint).getFeatureTypes()
-        : endpoint instanceof WmsEndpoint
-          ? endpoint.getFlattenedLayers()
-          : endpoint.getLayers()
+        : (endpoint instanceof WmsEndpoint
+            ? endpoint.getFlattenedLayers()
+            : endpoint.getLayers()
+          ).map((l) => endpoint.getLayerByName(l.name))
 
     layers.sort((a, b) => a.title.localeCompare(b.title))
 

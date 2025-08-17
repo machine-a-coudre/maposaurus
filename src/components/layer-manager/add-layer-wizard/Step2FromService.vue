@@ -35,12 +35,13 @@ async function onClickGetServiceLayers(url: string) {
   }
 }
 
-function onClickLayerItem(layer: Record<string, string>) {
+function onClickLayerItem(layer: Record<string, any>) {
   appStore.addLayerToCollection({
     ...layer,
     type: <MTLayerType>serviceProtocol.value.toLowerCase(),
     serviceUrl: serviceUrl.value,
     serviceVersion: serviceVersion.value,
+    legend: layer.styles ? layer.styles[0]?.legendUrl : undefined,
   })
 }
 </script>

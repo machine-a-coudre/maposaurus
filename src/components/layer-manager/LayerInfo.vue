@@ -26,6 +26,10 @@ function handleClose() {
       <div>{{ layer?.serviceUrl }}</div>
       <div>{{ layer?.serviceVersion }}</div>
       <div>{{ layer?.type }}</div>
+      <div v-if="layer.legend" class="bg-white">
+        <img :src="layer.legend" />
+      </div>
+      <div class="italic opacity-75" v-else>pas de légende disponible</div>
       <div>{{ layer?.origin }}</div>
     </template>
     <template #footer>

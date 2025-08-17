@@ -29,6 +29,7 @@ export type MTLayerDefinition = {
   serviceVersion?: MTServiceVersion
   origin?: string
   color: string
+  legend?: string
 }
 
 export const useAppStore = defineStore('app', () => {

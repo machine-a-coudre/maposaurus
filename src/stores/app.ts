@@ -20,6 +20,7 @@ export type MTLayerType = MTLayerTypeEnum | MTServiceProtocol
 export type MTLayerDefinition = {
   name: string
   abstract: string
+  bbox?: number[]
   data?: unknown
   title: string
   visibility: boolean

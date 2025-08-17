@@ -13,6 +13,8 @@ import {
 } from '@/stores/app'
 import { useNotify } from '@/composables/notify'
 import { searchPatternInLayers } from '@/helpers/search.helper'
+import { LngLatBounds } from 'maplibre-gl'
+import { getBbox } from '@/helpers/maplibre/zoom.helper'
 
 const { notifyError } = useNotify()
 const appStore = useAppStore()
@@ -53,12 +55,15 @@ async function onClickGetServiceLayers(url: string) {
 }
 
 function onClickLayerItem(layer: Record<string, any>) {
+  console.log(layer)
+
   appStore.addLayerToCollection({
     ...layer,
     type: <MTLayerType>serviceProtocol.value.toLowerCase(),
     serviceUrl: serviceUrl.value,
     serviceVersion: serviceVersion.value,
     legend: layer.styles ? layer.styles[0]?.legendUrl : undefined,
+    bbox: getBbox(layer),
   })
 }
 </script>

@@ -9,7 +9,7 @@ import {
   mutateLayerMaplibre,
   removeLayerMapLibre,
 } from '@/helpers/maplibre/layers.helper'
-import { zoomToFeature } from '@/helpers/maplibre/zoom.helper'
+import { zoomTo } from '@/helpers/maplibre/zoom.helper'
 import { useNotify } from '../notify'
 
 const PREDEFINED_STYLES = {
@@ -118,7 +118,7 @@ export function useMapLibre(containerId = 'map', type = 'map') {
     if (!layer || !mapRef.value) return
 
     try {
-      zoomToFeature(mapRef.value, layer)
+      zoomTo(mapRef.value, layer)
     } catch (e) {
       notifyError({
         title: `Unable to focus on "${layer.title}"`,

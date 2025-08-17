@@ -1,24 +1,18 @@
-import type { GeoJSONSource, Map } from 'maplibre-gl'
+import { LngLatBounds, type GeoJSONSource, type Map } from 'maplibre-gl'
 import * as turf from '@turf/turf'
 import { MTLayerTypeEnum, type MTLayerDefinition } from '@/stores/app'
 
-export async function zoomToFeature(map: Map, layer: MTLayerDefinition) {
+export async function zoomTo(map: Map, layer: MTLayerDefinition) {
   const source = map.getSource(layer.name)
+  let bbox: number[] | undefined
 
-  if (source?.type !== MTLayerTypeEnum.GeoJSON) {
-    return // TODO: other sources
+  if (source?.type === MTLayerTypeEnum.GeoJSON) {
+    bbox = await zoomToFeature(map, layer)
+  } else {
+    bbox = layer.bbox
   }
 
-  const sourceData = await (<GeoJSONSource>source).getData()
-  const features = sourceData
-  //{
-  //  type: 'FeatureCollection',
-  //  features: map.querySourceFeatures(layer.name),
-  //}
-
-  const bbox = turf.bbox(<turf.AllGeoJSON>features)
-
-  if (!bbox.every((b) => Number.isFinite(b))) return
+  if (!bbox || !bbox.every((b) => Number.isFinite(b))) return
 
   map.fitBounds(
     [
@@ -30,4 +24,35 @@ export async function zoomToFeature(map: Map, layer: MTLayerDefinition) {
       duration: 1000,
     },
   )
+}
+
+async function zoomToFeature(map: Map, layer: MTLayerDefinition) {
+  const source = <GeoJSONSource>map.getSource(layer.name)
+  const sourceData = await source.getData()
+  const features = sourceData
+
+  //{
+  //  type: 'FeatureCollection',
+  //  features: map.querySourceFeatures(layer.name),
+  //}
+
+  return turf.bbox(<turf.AllGeoJSON>features)
+}
+
+export function getBbox(layer: Record<string, any>) {
+  const boundingBoxes =
+    layer.boundingBoxes && layer.boundingBoxes['EPSG:4326']
+      ? layer.boundingBoxes['EPSG:4326']
+      : undefined
+  const bounds = boundingBoxes
+    ? new LngLatBounds(
+        [boundingBoxes[0], boundingBoxes[1]],
+        [boundingBoxes[2], boundingBoxes[3]],
+      )
+    : undefined
+  const bbox = bounds
+    ? [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()]
+    : undefined
+
+  return bbox
 }

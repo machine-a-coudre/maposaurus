@@ -7,6 +7,7 @@ import {
   type MTServiceVersion,
 } from '@/helpers/mapServices.helper'
 import {
+  MTLayerTypeEnum,
   useAppStore,
   type MTLayerDefinition,
   type MTLayerType,
@@ -190,7 +191,7 @@ function onClickLayerItem(layer: Record<string, any>) {
                 ...layer,
                 serviceVersion,
                 serviceUrl,
-                type: serviceProtocol,
+                type: <MTLayerTypeEnum>serviceProtocol.toLocaleLowerCase(),
               }"
               @select="onClickLayerItem(layer)"
             />

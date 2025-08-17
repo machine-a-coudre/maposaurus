@@ -96,7 +96,7 @@ export function useMapLibre(containerId = 'map', type = 'map') {
       for (let i = 0; i < addedLayers.length; i++) {
         const layer = addedLayers[i]
         try {
-          addLayerToMap(map, layer)
+          await addLayerToMap(map, layer)
 
           notifySuccess({
             title: `The layer "${layer.title}" has been successfully added to the map.`,

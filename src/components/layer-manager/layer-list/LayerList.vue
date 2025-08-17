@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <template v-if="layers.length">
+  <template v-if="layers?.length">
     <LayerListItem
       class="flex items-center gap-2 px-0 py-1"
       v-for="layer in layers.toReversed()"

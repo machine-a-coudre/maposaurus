@@ -7,13 +7,23 @@ const { mapLayersCollection } = storeToRefs(appStore)
 </script>
 
 <template>
-  <ul class="flex flex-col gap-3">
+  <ul class="flex flex-col gap-4">
     <li
       v-for="layer in mapLayersCollection.toReversed()"
       :key="layer.name"
       :class="{ 'opacity-60': !layer.visibility }"
     >
       {{ layer.name }}
+      <UBadge
+        v-if="layer.error"
+        variant="outline"
+        color="error"
+        class="ml-2"
+        size="sm"
+      >
+        Error
+      </UBadge>
+
       <div v-if="layer.legend" class="bg-white">
         <img :src="layer.legend" />
       </div>

@@ -35,14 +35,14 @@ export function mutateLayerMaplibre(map: Map, layer: MTLayerDefinition) {
     map.setPaintProperty(`${layer.name}-fill`, 'fill-color', layer.color)
 }
 
-export function addLayerToMap(map: Map, layer: MTLayerDefinition) {
+export async function addLayerToMap(map: Map, layer: MTLayerDefinition) {
   if (
     layer.type === MTLayerTypeEnum.GeoJSON ||
     layer.type === MTLayerTypeEnum.GPX
   ) {
     addGeojsonLayerToMap(map, layer, <GeoJSON.GeoJSON>layer.data)
   } else if (layer.type === MTLayerTypeEnum.WFS) {
-    addWFSLayerToMap(map, layer)
+    await addWFSLayerToMap(map, layer)
   } else if (
     layer.type === MTLayerTypeEnum.WMS ||
     layer.type === MTLayerTypeEnum.WMTS

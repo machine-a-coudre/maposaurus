@@ -23,7 +23,7 @@ watch(color, (c) => appStore.mutateLayerColor(props.layer.name, c))
         MTLayerTypeEnum.WFS,
         MTLayerTypeEnum.GeoJSON,
         MTLayerTypeEnum.GPX,
-      ].includes(layer.type)
+      ].includes(<MTLayerTypeEnum>layer.type)
     "
   >
     <UPopover>
@@ -31,6 +31,7 @@ watch(color, (c) => appStore.mutateLayerColor(props.layer.name, c))
         variant="ghost"
         icon="i-lucide-grip"
         :style="{ color: layer.color }"
+        :disabled="layer.error"
       />
 
       <template #content>

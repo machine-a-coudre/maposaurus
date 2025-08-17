@@ -10,10 +10,15 @@
   "map.menu.layers.item.toggle.tooltip": "Afficher ou masquer une couche sur la carte",
   "map.menu.layers.item.styling.tooltip": "Editer le style de la couche",
   "map.menu.layers.item.remove.tooltip": "Supprimer la couche de la carte",
+  "map.menu.layers.item.info.tooltip": "Afficher les informations de la couche",
+  "map.menu.layers.item.focus.tooltip": "Zoomer sur la couche",
 
   "map.menu.layers.addnewlayer.button.tooltip": "Ajouter une nouvelle couche sur la carte",
   "map.menu.layers.addnewlayer.button.label": "Ajouter une couche",
   "map.menu.layers.addnewlayer.modale.title": "Ajouter une nouvelle couche",
+  "map.menu.layers.addnewlayer.getlayers.button.label": "Obtenir la liste des couches du service",
+
+  "map.menu.localizationinfo.tooltip": "Changer de langue",
 
   "map.menu.thememanager.title": "Parcourir les thèmes",
   "map.menu.thememanager.tooltip": "Afficher le gestionnaire de thèmes",
@@ -27,6 +32,6 @@
 
   "map.menu.basepopover.close.button.tooltip": "Fermer le menu",
 
-  "layers.layer.info.title": "Informations de la couche",
+  "layers.layer.info.modal.title": "Informations de la couche",
   "layers.layer.info.modal.dismiss": "Ok"
 }

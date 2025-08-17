@@ -122,7 +122,7 @@ function onClickLayerItem(layer: Record<string, string>) {
           color="primary"
           variant="solid"
           :active="true"
-          :label="$t('Obtenir la liste des couches du service')"
+          :label="$t('map.menu.layers.addnewlayer.getlayers.button.label')"
           :disabled="!serviceUrl"
           loading-auto
           @click="onClickGetServiceLayers(serviceUrl)"

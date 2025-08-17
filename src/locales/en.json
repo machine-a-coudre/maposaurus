@@ -10,10 +10,15 @@
   "map.menu.layers.item.toggle.tooltip": "Show or hide a layer on the map",
   "map.menu.layers.item.styling.tooltip": "Edit layer style",
   "map.menu.layers.item.remove.tooltip": "Remove layer from map",
+  "map.menu.layers.item.info.tooltip": "Display layer informations",
+  "map.menu.layers.item.focus.tooltip": "Zoom on layer",
 
   "map.menu.layers.addnewlayer.button.tooltip": "Add a new layer to the map",
   "map.menu.layers.addnewlayer.button.label": "Add a layer",
   "map.menu.layers.addnewlayer.modale.title": "Add a new layer",
+  "map.menu.layers.addnewlayer.getlayers.button.label": "Get service's layers",
+
+  "map.menu.localizationinfo.tooltip": "Change language",
 
   "map.menu.thememanager.title": "Browse themes",
   "map.menu.thememanager.tooltip": "Show theme manager",

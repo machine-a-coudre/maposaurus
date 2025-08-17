@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { useAppStore } from '@/stores/app'
+import { type MTLayerDefinition } from '@/stores/app'
 
-const appStore = useAppStore()
-const { mapLayersCollection } = storeToRefs(appStore)
+defineProps<{
+  layers?: MTLayerDefinition[]
+}>()
 </script>
 
 <template>
   <LayerListItem
     class="flex items-center gap-2 px-0 py-1"
-    v-for="layer in mapLayersCollection.toReversed()"
+    v-for="layer in layers.toReversed()"
     :key="layer.name"
     :layer="layer"
   />

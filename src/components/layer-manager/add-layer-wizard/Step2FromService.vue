@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, shallowRef } from 'vue'
+import { computed, ref, shallowRef } from 'vue'
 import {
   getCapabilities,
   type MTServiceProtocol,
@@ -18,6 +18,20 @@ const servicesLayers = ref<{ name: string; title: string; abstract: string }[]>(
 const serviceCapabilities = shallowRef(undefined)
 const serviceProtocol = ref<MTServiceProtocol>('WFS')
 const serviceVersion = ref<MTServiceVersion>('1.3.0')
+const searchPattern = ref('')
+const layers = computed(() => {
+  if (serviceCapabilities.value?.layers) {
+    return searchPattern.value
+      ? serviceCapabilities.value?.layers.filter(
+          (l) =>
+            l.name.toLowerCase().includes(searchPattern.value.toLowerCase()) ||
+            l.title.toLowerCase().includes(searchPattern.value.toLowerCase()),
+        )
+      : serviceCapabilities.value?.layers
+  }
+
+  return []
+})
 
 async function onClickGetServiceLayers(url: string) {
   servicesLayers.value = []
@@ -147,14 +161,11 @@ function onClickLayerItem(layer: Record<string, any>) {
           size="md"
           variant="outline"
           placeholder="Search..."
+          v-model="searchPattern"
         />
 
         <ul class="flex flex-col gap-1" v-if="serviceCapabilities">
-          <li
-            v-for="layer in serviceCapabilities.layers"
-            :key="layer.name"
-            class="flex"
-          >
+          <li v-for="layer in layers" :key="layer.name" class="flex">
             <Step2FromServiceLayersItem
               :layer="{
                 ...layer,

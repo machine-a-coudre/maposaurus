@@ -1,13 +1,23 @@
 <script setup lang="ts">
-import { watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAppStore } from '@/stores/app'
 import LayerInfo from './LayerInfo.vue'
 
 const appStore = useAppStore()
-const { showLayerInfo } = storeToRefs(appStore)
+const { showLayerInfo, mapLayersCollection } = storeToRefs(appStore)
 const overlay = useOverlay()
 const modal = overlay.create(LayerInfo)
+const searchPattern = ref('')
+const layers = computed(() =>
+  searchPattern.value
+    ? mapLayersCollection.value.filter(
+        (l) =>
+          l.name.toLowerCase().includes(searchPattern.value.toLowerCase()) ||
+          l.title.toLowerCase().includes(searchPattern.value.toLowerCase()),
+      )
+    : mapLayersCollection.value,
+)
 
 watch(showLayerInfo, (layer) => layer && modal.open({ layer }))
 </script>
@@ -19,10 +29,11 @@ watch(showLayerInfo, (layer) => layer && modal.open({ layer }))
     size="md"
     variant="outline"
     :placeholder="$t('map.menu.layers.search.placeholder')"
+    v-model="searchPattern"
   />
 
   <div class="mt-8 max-h-dvh overflow-y-auto">
-    <LayerList />
+    <LayerList :layers="layers" />
 
     <UModal
       :overlay="false"

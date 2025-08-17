@@ -1,0 +1,54 @@
+import { type Map } from 'maplibre-gl'
+import { MTLayerTypeEnum, type MTLayerDefinition } from '@/stores/app'
+import { addGeojsonLayerToMap } from './layers-geojson.helper'
+import { addWFSLayerToMap } from './layers-wfs.helper'
+import { addWMXSLayerToMap } from './layers-wmxs.helper'
+
+export function removeLayerMapLibre(map: Map, layer: MTLayerDefinition) {
+  ;['', '-circle', '-line', '-fill'].forEach(
+    (postfix) =>
+      map.getLayer(`${layer.name}${postfix}`) &&
+      map.removeLayer(`${layer.name}${postfix}`),
+  )
+
+  map.getSource(layer.name) && map.removeSource(layer.name)
+}
+
+export function mutateLayerMaplibre(map: Map, layer: MTLayerDefinition) {
+  ;['', '-circle', '-line', '-fill'].forEach(
+    (postfix) =>
+      map.getLayer(`${layer.name}${postfix}`) &&
+      map.setLayoutProperty(
+        `${layer.name}${postfix}`,
+        'visibility',
+        layer.visibility ? 'visible' : 'none',
+      ),
+  )
+
+  map.getLayer(`${layer.name}-circle`) &&
+    map.setPaintProperty(`${layer.name}-circle`, 'circle-color', layer.color)
+
+  map.getLayer(`${layer.name}-line`) &&
+    map.setPaintProperty(`${layer.name}-line`, 'line-color', layer.color)
+
+  map.getLayer(`${layer.name}-fill`) &&
+    map.setPaintProperty(`${layer.name}-fill`, 'fill-color', layer.color)
+}
+
+export function addLayerToMap(map: Map, layer: MTLayerDefinition) {
+  if (
+    layer.type === MTLayerTypeEnum.GeoJSON ||
+    layer.type === MTLayerTypeEnum.GPX
+  ) {
+    addGeojsonLayerToMap(map, layer, <GeoJSON.GeoJSON>layer.data)
+  } else if (layer.type === MTLayerTypeEnum.WFS) {
+    addWFSLayerToMap(map, layer)
+  } else if (
+    layer.type === MTLayerTypeEnum.WMS ||
+    layer.type === MTLayerTypeEnum.WMTS
+  ) {
+    addWMXSLayerToMap(map, layer)
+  } else {
+    throw new Error('[Error] Maplibre.util:: Unknown layer type.')
+  }
+}

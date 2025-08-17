@@ -8,7 +8,7 @@ import {
   addLayerToMap,
   mutateLayerMaplibre,
   removeLayerMapLibre,
-} from '@/helpers/maplibre/maplibre.helper'
+} from '@/helpers/maplibre/layers.helper'
 import { zoomToFeature } from '@/helpers/maplibre/zoom.helper'
 import { useNotify } from '../notify'
 

@@ -58,7 +58,13 @@ async function onValidate() {
 watch(file, async (f) => {
   if (!f) return
 
-  layerName.value = f.name.split('.').shift()
+  const name = f.name.split('.').shift() || ''
+  const nameExists = appStore.isLayerInCollection(<MTLayerDefinition>{
+    name,
+    type: MTLayerTypeEnum.GeoJSON,
+  })
+
+  layerName.value = `${name}${nameExists ? ' (1)' : ''}`
 })
 </script>
 

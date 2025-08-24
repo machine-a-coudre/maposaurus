@@ -41,9 +41,9 @@ function onClickLayerFocus() {
       }"
     >
       <LayerListItemIcon :layer="layer" />
-      <p class="overflow-hidden text-ellipsis truncate">
+      <p class="overflow-hidden text-ellipsis truncate cursor-default">
         <UTooltip :delay-duration="0" :text="`[${layer.name}] ${layer.title}`">
-          <span>{{ layer.title }}</span>
+          <span @dblclick="onClickLayerFocus">{{ layer.title }}</span>
         </UTooltip>
         <UBadge
           v-if="layer.error"

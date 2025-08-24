@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import type { TabsItem } from '@nuxt/ui'
-import { MTLayerTypeEnum, useAppStore } from '@/stores/app'
+import {
+  MTLayerTypeEnum,
+  useAppStore,
+  type MTLayerDefinition,
+} from '@/stores/app'
 import { getFileContentAsGeoJson } from '@/helpers/fileReader.helper'
 
 const appStore = useAppStore()
@@ -22,6 +26,7 @@ const items = [
 ] satisfies TabsItem[]
 
 async function onValidate() {
+  let layer: MTLayerDefinition
   let data: string = ''
   let type = MTLayerTypeEnum.GeoJSON
   let origin = 'input'
@@ -37,14 +42,17 @@ async function onValidate() {
     data = JSON.parse(layerData.value)
   }
 
-  appStore.addLayerToCollection({
+  layer = <MTLayerDefinition>{
     name: layerName.value,
     abstract: layerAbstract.value,
     title: layerName.value,
     type,
     data,
     origin,
-  })
+  }
+
+  appStore.addLayerToCollection(layer)
+  appStore.toggleFocusOnLayer(layer)
 }
 
 watch(file, async (f) => {
@@ -84,7 +92,7 @@ watch(file, async (f) => {
           highlight
           :interactive="false"
           class="min-h-48"
-          accept=".json,.geojson,.txt,.gpx"
+          accept=".json,.geojson,.txt,.gpx,.kml"
         >
           <template #actions="{ open }">
             <UButton

@@ -1,4 +1,4 @@
-import { gpx } from '@mapbox/togeojson'
+import { gpx, kml } from '@mapbox/togeojson'
 
 export function readFileContent(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -11,10 +11,16 @@ export function readFileContent(file: File): Promise<string> {
   })
 }
 
-function convertGpxToGeoJson(gpxString: string) {
+function convertGpxToGeoJson(txt: string) {
   const parser = new DOMParser()
-  const gpxDoc = parser.parseFromString(gpxString, 'text/xml')
-  return gpx(gpxDoc)
+  const doc = parser.parseFromString(txt, 'text/xml')
+  return gpx(doc, { styles: true })
+}
+
+function convertKmlToGeoJson(txt: string) {
+  const parser = new DOMParser()
+  const doc = parser.parseFromString(txt, 'text/xml')
+  return kml(doc, { styles: true })
 }
 
 export async function getFileContentAsGeoJson(file: File) {
@@ -22,6 +28,10 @@ export async function getFileContentAsGeoJson(file: File) {
 
   if (file.type.includes('gpx')) {
     return convertGpxToGeoJson(content)
+  }
+
+  if (file.type.includes('kml')) {
+    return convertKmlToGeoJson(content)
   }
 
   return JSON.parse(content)

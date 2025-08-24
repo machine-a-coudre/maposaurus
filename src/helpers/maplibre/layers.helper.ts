@@ -5,25 +5,25 @@ import { addWFSLayerToMap } from './layers-wfs.helper'
 import { addWMXSLayerToMap } from './layers-wmxs.helper'
 
 export function removeLayerMapLibre(map: Map, layer: MTLayerDefinition) {
-  ;['', '-circle', '-line', '-fill'].forEach(
-    (postfix) =>
-      map.getLayer(`${layer.name}${postfix}`) &&
-      map.removeLayer(`${layer.name}${postfix}`),
-  )
+  map.getStyle().layers.forEach((l) => {
+    if (l.id.includes(layer.name)) {
+      map.removeLayer(l.id)
+    }
+  })
 
   map.getSource(layer.name) && map.removeSource(layer.name)
 }
 
 export function mutateLayerMaplibre(map: Map, layer: MTLayerDefinition) {
-  ;['', '-circle', '-line', '-fill'].forEach(
-    (postfix) =>
-      map.getLayer(`${layer.name}${postfix}`) &&
+  map.getStyle().layers.forEach((l) => {
+    if (l.id.includes(layer.name)) {
       map.setLayoutProperty(
-        `${layer.name}${postfix}`,
+        l.id,
         'visibility',
         layer.visibility ? 'visible' : 'none',
-      ),
-  )
+      )
+    }
+  })
 
   map.getLayer(`${layer.name}-circle`) &&
     map.setPaintProperty(`${layer.name}-circle`, 'circle-color', layer.color)

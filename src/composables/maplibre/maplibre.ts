@@ -131,6 +131,7 @@ export function useMapLibre(containerId = 'map', type = 'map') {
 
   onMounted(() => {
     mapRef.value = new maplibregl.Map({
+      cluster: false,
       container: containerId,
       style: positronStyle,
       center: [0, 0],

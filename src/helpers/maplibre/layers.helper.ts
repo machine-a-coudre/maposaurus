@@ -1,8 +1,8 @@
 import { type Map } from 'maplibre-gl'
 import { MTLayerTypeEnum, type MTLayerDefinition } from '@/stores/app'
-import { addGeojsonLayerToMap } from './layers-geojson.helper'
-import { addWFSLayerToMap } from './layers-wfs.helper'
-import { addWMXSLayerToMap } from './layers-wmxs.helper'
+import { addGeojsonLayerToMap } from './layer-geojson.helper'
+import { addWFSLayerToMap } from './layer-wfs.helper'
+import { addWMXSLayerToMap } from './layer-wmxs.helper'
 
 export function removeLayerMapLibre(map: Map, layer: MTLayerDefinition) {
   map.getStyle().layers.forEach((l) => {

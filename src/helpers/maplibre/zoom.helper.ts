@@ -31,11 +31,6 @@ async function zoomToFeature(map: Map, layer: MTLayerDefinition) {
   const sourceData = await source.getData()
   const features = sourceData
 
-  //{
-  //  type: 'FeatureCollection',
-  //  features: map.querySourceFeatures(layer.name),
-  //}
-
   return turf.bbox(<turf.AllGeoJSON>features)
 }
 

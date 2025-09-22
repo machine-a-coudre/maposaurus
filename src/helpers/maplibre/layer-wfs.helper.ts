@@ -1,6 +1,6 @@
 import { type Map } from 'maplibre-gl'
 import { type MTLayerDefinition } from '@/stores/app'
-import { addGeojsonLayerToMap } from './layers-geojson.helper'
+import { addGeojsonLayerToMap } from './layer-geojson.helper'
 
 export async function addWFSLayerToMap(map: Map, layer: MTLayerDefinition) {
   const url = getUrlWfs(layer)
